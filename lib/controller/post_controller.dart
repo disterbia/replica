@@ -14,11 +14,21 @@ class ProductController extends GetxController{
     findAll();
   }
 
-  Future<List<Product>> findAll() async{
+  Future<void> findAll() async{
     List<Product> products = await _productRepository.findAll();
     this.products.value=products;
-    return products;
   }
+
+  Future<void> findById(String id) async {
+    Product product = await _productRepository.findById(id);
+    this.product.value=product;
+  }
+
+  Future<void> findByCategory(String category) async {
+    List<Product> products = await _productRepository.findByCategory(category);
+    this.products.value=products;
+  }
+
 
 
   Future<void> save(Product newProduct) async{

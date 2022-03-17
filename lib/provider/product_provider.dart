@@ -25,11 +25,10 @@ class ProductProvider {
   Future<DocumentSnapshot> save(Product product) => FirebaseFirestore.instance
       .collection(_collection)
       .add(product.toJson())
-      //     .then((v) {
-      // v.update({"id": v.id});
-      // return v.get();
-      // }
-      .then((value) => value.get());
+          .then((v) {
+      v.update({"id": v.id});
+      return v.get();
+      });
 
   Future<void> update(Product product) {
     String? id = product.id;
