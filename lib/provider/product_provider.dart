@@ -23,11 +23,11 @@ class ProductProvider {
           .get();
 
   Future<DocumentSnapshot> save(Product product) => FirebaseFirestore.instance
-      .collection(_collection)
-      .add(product.toJson())
-          .then((v) {
-      v.update({"id": v.id});
-      return v.get();
+          .collection(_collection)
+          .add(product.toJson())
+          .then((v) async{
+        await v.update({"id": v.id});
+        return v.get();
       });
 
   Future<void> update(Product product) {
@@ -37,6 +37,6 @@ class ProductProvider {
         .update(UpdateDto(product: product).ProductToJson());
   }
 
-  Future<void> delete(String id)=>
+  Future<void> delete(String id) =>
       FirebaseFirestore.instance.doc("$_collection/$id").delete();
 }

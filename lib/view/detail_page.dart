@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:panda/controller/post_controller.dart';
+import 'package:panda/view/home_page.dart';
+import 'package:panda/view/update_page.dart';
+import 'package:panda/view/write_page.dart';
 
 class DetailPage extends StatelessWidget {
   @override
@@ -9,43 +13,103 @@ class DetailPage extends StatelessWidget {
     ProductController p = Get.find();
 
     return Obx(
-      () => ListView(
-        children: [
-          SizedBox(height: 500,),
-          ListView.separated(
-            shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    LimitedBox(maxWidth: 500,maxHeight: 500 ,
-                      child: CachedNetworkImage(
-                        imageUrl: p.product.value.detailImageUrl![index],
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                              // colorFilter:
-                              // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+      () => WillPopScope(onWillPop: ()async => true,
+        child: Scaffold(
+            floatingActionButton: SpeedDial(
+              animatedIcon: AnimatedIcons.menu_close,
+              backgroundColor: Colors.redAccent,
+              overlayColor: Colors.grey,
+              overlayOpacity: 0.5,
+              spacing: 15,
+              spaceBetweenChildren: 15,
+              closeManually: false,
+              children: [
+                SpeedDialChild(
+                    child: Icon(Icons.share_rounded),
+                    label: '상품등록',
+                    backgroundColor: Colors.blue,
+                    onTap: (){
+                      Get.to(()=>WritePage());
+                    }
+                ),
+                SpeedDialChild(
+                    child: Icon(Icons.mail),
+                    label: 'Mail',
+                    onTap: (){
+                      print('Mail Tapped');
+                    }
+                ),
+                SpeedDialChild(
+                    child: Icon(Icons.copy),
+                    label: 'Copy',
+                    onTap: (){
+                      print('Copy Tapped');
+                    }
+                ),
+                SpeedDialChild(),
+              ],
+            ),
+          body: ListView(
+            children: [
+              Row(
+                children: [
+                  TextButton(
+                      onPressed: () async {
+                        Get.to(() => UpdatePage());
+                      },
+                      child: Text("수정")),
+                  TextButton(
+                      onPressed: () async {
+                        await p.delete(p.product.value.id!);
+                        Get.off(() => HomePage());
+                      },
+                      child: Text("삭제")),
+                ],
+              ),
+              SizedBox(
+                height: 500,
+              ),
+              ListView.separated(
+                itemCount: p.product.value.detailImageUrl!.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LimitedBox(
+                          maxWidth: 500,
+                          maxHeight: 500,
+                          child: CachedNetworkImage(
+                            imageUrl: p.product.value.detailImageUrl![index],
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.fill,
+                                  // colorFilter:
+                                  // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                ),
+                              ),
                             ),
+                            placeholder: (context, url) =>
+                                CircularProgressIndicator(),
+                            errorWidget: (context, url, error) {
+                              print(error);
+                              return Icon(Icons.error);
+                            },
                           ),
                         ),
-                        placeholder: (context, url) => CircularProgressIndicator(),
-                        errorWidget: (context, url, error) {
-                          print(error);
-                          return Icon(Icons.error);
-                        },
-                      ),
-                    ),
-                  ],
-                );
-              },
-              separatorBuilder: (context, index) {
-                return Divider();
-              },
-              itemCount: p.product.value.detailImageUrl!.length)
-        ],
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
+                  )
+            ],
+          ),
+        ),
       ),
     );
   }

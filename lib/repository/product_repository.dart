@@ -34,7 +34,6 @@ class ProductRepository {
 
   Future<void> update(Product product) async {
     await _productProvider.update(product);
-
   }
 
   Future<void> delete(String id) async{

@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:panda/controller/post_controller.dart';
 import 'package:panda/view/write_page.dart';
@@ -21,10 +22,44 @@ class HomePage extends StatelessWidget {
     ProductController p = Get.put(ProductController());
     bool isDeskTop = GetPlatform.isDesktop;
 
-    return Scaffold(
-      body: Obx(
-        () {
-          return Column(
+    return Obx(
+      ()=> WillPopScope(onWillPop: ()async => true,
+        child: Scaffold(
+          floatingActionButton: SpeedDial(
+            animatedIcon: AnimatedIcons.menu_close,
+            backgroundColor: Colors.redAccent,
+            overlayColor: Colors.grey,
+            overlayOpacity: 0.5,
+            spacing: 15,
+            spaceBetweenChildren: 15,
+            closeManually: false,
+            children: [
+              SpeedDialChild(
+                  child: Icon(Icons.share_rounded),
+                  label: '상품등록',
+                  backgroundColor: Colors.blue,
+                  onTap: (){
+                    Get.to(()=>WritePage());
+                  }
+              ),
+              SpeedDialChild(
+                  child: Icon(Icons.mail),
+                  label: 'Mail',
+                  onTap: (){
+                    print('Mail Tapped');
+                  }
+              ),
+              SpeedDialChild(
+                  child: Icon(Icons.copy),
+                  label: 'Copy',
+                  onTap: (){
+                    print('Copy Tapped');
+                  }
+              ),
+              SpeedDialChild(),
+            ],
+          ),
+          body: Column(
             children: [
               Expanded(
                 flex: 1,
@@ -39,11 +74,11 @@ class HomePage extends StatelessWidget {
                       Text(categoris[5])
                     ],
                     isSelected: _selections,
-                    onPressed: (index) async {
+                    onPressed: (index)  {
                       for (int i = 0; i < _selections.length; i++) {
                         _selections[i] = i == index;
                       }
-                      await p.findByCategory(categoris[index]);
+                      p.changeCategory(categoris[index]);
                     },
                     selectedColor: Colors.red,
                   ),
@@ -62,7 +97,7 @@ class HomePage extends StatelessWidget {
                       imageBuilder: (context, imageProvider) => GestureDetector(
                         onTap: () async {
                           await p.findById(p.products[index].id!);
-                          Get.to(() => DetailPage());
+                          Get.to(() => DetailPage(),transition: Transition.size);
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -82,8 +117,8 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ],
-          );
-        },
+          ),
+        ),
       ),
     );
   }
