@@ -6,37 +6,32 @@ import '../model/product.dart';
 
 class ProductProvider {
   final _collection = "product";
+  final _store = FirebaseFirestore.instance;
 
-  Future<QuerySnapshot> findAll() => FirebaseFirestore.instance
+  Future<QuerySnapshot> findAll() =>
+      _store.collection(_collection).orderBy("created", descending: true).get();
+
+  Future<DocumentSnapshot> findById(String id) =>
+      _store.doc("$_collection/$id").get();
+
+  Future<QuerySnapshot> findByCategory(String category) => _store
       .collection(_collection)
+      .where("category", isEqualTo: category)
       .orderBy("created", descending: true)
       .get();
 
-  Future<DocumentSnapshot> findById(String id) =>
-      FirebaseFirestore.instance.doc("$_collection/$id").get();
-
-  Future<QuerySnapshot> findByCategory(String category) =>
-      FirebaseFirestore.instance
-          .collection(_collection)
-          .where("category", isEqualTo: category)
-          .orderBy("created", descending: true)
-          .get();
-
-  Future<DocumentSnapshot> save(Product product) => FirebaseFirestore.instance
-          .collection(_collection)
-          .add(product.toJson())
-          .then((v) async{
+  Future<DocumentSnapshot> save(Product product) =>
+      _store.collection(_collection).add(product.toJson()).then((v) async {
         await v.update({"id": v.id});
         return v.get();
       });
 
   Future<void> update(Product product) {
     String? id = product.id;
-    return FirebaseFirestore.instance
+    return _store
         .doc("$_collection/$id")
         .update(UpdateDto(product: product).ProductToJson());
   }
 
-  Future<void> delete(String id) =>
-      FirebaseFirestore.instance.doc("$_collection/$id").delete();
+  Future<void> delete(String id) => _store.doc("$_collection/$id").delete();
 }

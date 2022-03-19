@@ -17,6 +17,31 @@ Function validateUsername() {
   };
 }
 
+Function validatePhoneNumber() {
+  //GetUtils.isEmail()
+  return (String? value) {
+    if (!GetUtils.isPhoneNumber(value!)) {
+      return "휴대번호 형식에 알맞게 입력하세요.";
+    } else {
+      return null;
+    }
+  };
+}
+
+Function validateCode() {
+  //GetUtils.isEmail()
+  return (String? value) {
+    if (!GetUtils.isNum(value!)) {
+      return "숫자만 입력 할 수 있습니다.";
+    }else if(!GetUtils.isLengthEqualTo(value, 6)) {
+      return "코드는 6자리 입니다.";
+    }
+    else {
+      return null;
+    }
+  };
+}
+
 Function validatePassword() {
   return (String? value) {
     if (value!.isEmpty) {

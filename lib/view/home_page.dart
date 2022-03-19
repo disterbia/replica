@@ -1,11 +1,16 @@
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:panda/controller/post_controller.dart';
+import 'package:panda/controller/user_controller.dart';
+import 'package:panda/view/sign_in.dart';
 import 'package:panda/view/write_page.dart';
 
 import 'detail_page.dart';
+import 'join_page.dart';
+import 'my_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -20,12 +25,18 @@ class HomePage extends StatelessWidget {
     ];
     final List<bool> _selections = List.generate(6, (index) => false).obs;
     ProductController p = Get.put(ProductController());
+    UserController u = Get.put(UserController());
     bool isDeskTop = GetPlatform.isDesktop;
 
+    // final el = window.document.getElementById('__ff-recaptcha-container');
+    // if (el != null) {
+    //   el.style.visibility = 'hidden';
+    // }
     return Obx(
-      ()=> WillPopScope(onWillPop: ()async => true,
-        child: Scaffold(
-          floatingActionButton: SpeedDial(
+      () => WillPopScope(
+        onWillPop: () async => true,
+        child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+          floatingActionButton: SpeedDial(direction:SpeedDialDirection.down ,switchLabelPosition: true,
             animatedIcon: AnimatedIcons.menu_close,
             backgroundColor: Colors.redAccent,
             overlayColor: Colors.grey,
@@ -34,29 +45,28 @@ class HomePage extends StatelessWidget {
             spaceBetweenChildren: 15,
             closeManually: false,
             children: [
+              u.principal.value.email == "tkdtn@tmdgks.com"
+                  ? SpeedDialChild(
+                      child: Icon(Icons.share_rounded),
+                      label: "상품등록",
+                      backgroundColor: Colors.blue,
+                      onTap: () {
+                        Get.to(() => WritePage());
+                      })
+                  : SpeedDialChild(),
               SpeedDialChild(
                   child: Icon(Icons.share_rounded),
-                  label: '상품등록',
+                  label: u.isLogin.value ? "로그아웃" : "로그인",
                   backgroundColor: Colors.blue,
-                  onTap: (){
-                    Get.to(()=>WritePage());
-                  }
-              ),
+                  onTap: () {
+                    u.isLogin.value ? u.logout() : Get.to(() => LoginPage());
+                  }),
               SpeedDialChild(
                   child: Icon(Icons.mail),
-                  label: 'Mail',
-                  onTap: (){
-                    print('Mail Tapped');
-                  }
-              ),
-              SpeedDialChild(
-                  child: Icon(Icons.copy),
-                  label: 'Copy',
-                  onTap: (){
-                    print('Copy Tapped');
-                  }
-              ),
-              SpeedDialChild(),
+                  label: u.isLogin.value ? "마이페이지" : "회원가입",
+                  onTap: () {
+                    Get.to(() => u.isLogin.value ? MyPage() : JoinPage());
+                  }),
             ],
           ),
           body: Column(
@@ -74,7 +84,7 @@ class HomePage extends StatelessWidget {
                       Text(categoris[5])
                     ],
                     isSelected: _selections,
-                    onPressed: (index)  {
+                    onPressed: (index) {
                       for (int i = 0; i < _selections.length; i++) {
                         _selections[i] = i == index;
                       }
@@ -97,7 +107,8 @@ class HomePage extends StatelessWidget {
                       imageBuilder: (context, imageProvider) => GestureDetector(
                         onTap: () async {
                           await p.findById(p.products[index].id!);
-                          Get.to(() => DetailPage(),transition: Transition.size);
+                          Get.to(() => DetailPage(),
+                              transition: Transition.size);
                         },
                         child: Container(
                           decoration: BoxDecoration(
