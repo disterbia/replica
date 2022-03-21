@@ -3,11 +3,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:panda/controller/post_controller.dart';
+import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/sign_in.dart';
 import 'package:panda/view/write_page.dart';
 
+import '../components/cumstom_floating.dart';
 import 'detail_page.dart';
 import 'join_page.dart';
 import 'my_page.dart';
@@ -36,39 +37,7 @@ class HomePage extends StatelessWidget {
       () => WillPopScope(
         onWillPop: () async => true,
         child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-          floatingActionButton: SpeedDial(direction:SpeedDialDirection.down ,switchLabelPosition: true,
-            animatedIcon: AnimatedIcons.menu_close,
-            backgroundColor: Colors.redAccent,
-            overlayColor: Colors.grey,
-            overlayOpacity: 0.5,
-            spacing: 15,
-            spaceBetweenChildren: 15,
-            closeManually: false,
-            children: [
-              u.principal.value.email == "tkdtn@tmdgks.com"
-                  ? SpeedDialChild(
-                      child: Icon(Icons.share_rounded),
-                      label: "상품등록",
-                      backgroundColor: Colors.blue,
-                      onTap: () {
-                        Get.to(() => WritePage());
-                      })
-                  : SpeedDialChild(),
-              SpeedDialChild(
-                  child: Icon(Icons.share_rounded),
-                  label: u.isLogin.value ? "로그아웃" : "로그인",
-                  backgroundColor: Colors.blue,
-                  onTap: () {
-                    u.isLogin.value ? u.logout() : Get.to(() => LoginPage());
-                  }),
-              SpeedDialChild(
-                  child: Icon(Icons.mail),
-                  label: u.isLogin.value ? "마이페이지" : "회원가입",
-                  onTap: () {
-                    Get.to(() => u.isLogin.value ? MyPage() : JoinPage());
-                  }),
-            ],
-          ),
+          floatingActionButton: CustomFloating(u: u),
           body: Column(
             children: [
               Expanded(
@@ -134,3 +103,4 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+

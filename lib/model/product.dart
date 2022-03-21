@@ -43,4 +43,16 @@ class Product {
         "created": FieldValue.serverTimestamp(),
         "updated": FieldValue.serverTimestamp()
       };
+  Map<String, dynamic> toJsonContainId() =>
+      {
+        "id"  : id,
+        "name": name,
+        "comment": comment,
+        "price": price,
+        "mainImageUrl": mainImageUrl,
+        "category": category,
+        "detailImageUrl": detailImageUrl,
+        "created": FieldValue.serverTimestamp(),
+        "updated": FieldValue.serverTimestamp()
+      };
 }

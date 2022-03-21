@@ -1,4 +1,4 @@
-// import 'package:panda/controller/post_controller.dart';
+// import 'package:panda/controller/product_controller.dart';
 // import 'package:panda/service/firebase_service.dart';
 // import 'package:get/instance_manager.dart';
 //

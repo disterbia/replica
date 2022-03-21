@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:panda/controller/post_controller.dart';
+import 'package:panda/controller/product_controller.dart';
 import 'package:panda/model/product.dart';
 import 'package:panda/view/detail_page.dart';
 

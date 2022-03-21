@@ -2,56 +2,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
-import 'package:panda/controller/post_controller.dart';
+import 'package:panda/controller/product_controller.dart';
+import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/home_page.dart';
 import 'package:panda/view/update_page.dart';
 import 'package:panda/view/write_page.dart';
+
+import '../components/cumstom_floating.dart';
+import '../components/custom_elevated_button.dart';
+import 'order_page.dart';
 
 class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ProductController p = Get.find();
+    UserController u = Get.find();
 
     return Obx(
       () => WillPopScope(onWillPop: ()async => true,
-        child: Scaffold(
-            floatingActionButton: SpeedDial(
-              animatedIcon: AnimatedIcons.menu_close,
-              backgroundColor: Colors.redAccent,
-              overlayColor: Colors.grey,
-              overlayOpacity: 0.5,
-              spacing: 15,
-              spaceBetweenChildren: 15,
-              closeManually: false,
-              children: [
-                SpeedDialChild(
-                    child: Icon(Icons.share_rounded),
-                    label: '상품등록',
-                    backgroundColor: Colors.blue,
-                    onTap: (){
-                      Get.to(()=>WritePage());
-                    }
-                ),
-                SpeedDialChild(
-                    child: Icon(Icons.mail),
-                    label: 'Mail',
-                    onTap: (){
-                      print('Mail Tapped');
-                    }
-                ),
-                SpeedDialChild(
-                    child: Icon(Icons.copy),
-                    label: 'Copy',
-                    onTap: (){
-                      print('Copy Tapped');
-                    }
-                ),
-                SpeedDialChild(),
-              ],
-            ),
+        child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+            floatingActionButton: CustomFloating(u:u),
           body: ListView(
             children: [
-              Row(
+              u.principal.value.email == "tkdtn@tmdgks.com"? Row(mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   TextButton(
                       onPressed: () async {
@@ -65,10 +38,12 @@ class DetailPage extends StatelessWidget {
                       },
                       child: Text("삭제")),
                 ],
-              ),
+              ):Container(),
               SizedBox(
                 height: 500,
-              ),
+              ),CustomElevatedButton(text: "주문하기",funPageRoute: (){
+                Get.to(()=>OrderPage());
+              },),
               ListView.separated(
                 itemCount: p.product.value.detailImageUrl!.length,
                   shrinkWrap: true,
