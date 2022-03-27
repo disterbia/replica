@@ -18,7 +18,6 @@ class ProductController extends GetxController{
   @override
   void onInit() {
     super.onInit();
-    findAll();
     findByCategory("남성의류");
     findByCategory("여성의류");
     findByCategory("남성신발");
@@ -27,16 +26,12 @@ class ProductController extends GetxController{
     findByCategory("가방/지갑/악세사리");
   }
 
-  Future<void> findAll() async{
-    List<Product> products = await _productRepository.findAll();
-    this.products.value=products;
-  }
-
   Future<void> findById(String id) async {
     Product product = await _productRepository.findById(id);
     this.product.value=product;
   }
 
+  
   Future<void> findByCategory(String category) async {
     List<Product> products = await _productRepository.findByCategory(category);
     switch(category){

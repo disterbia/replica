@@ -6,9 +6,6 @@ class ProductProvider {
   final _collection = "product";
   final _store = FirebaseFirestore.instance;
 
-  Future<QuerySnapshot> findAll() =>
-      _store.collection(_collection).orderBy("created", descending: true).get();
-
   Future<DocumentSnapshot> findById(String id) =>
       _store.doc("$_collection/$id").get();
 

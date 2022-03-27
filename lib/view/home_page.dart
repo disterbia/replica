@@ -1,4 +1,3 @@
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
@@ -24,22 +23,39 @@ class HomePage extends StatelessWidget {
       "운동화",
       "가방/지갑/악세사리"
     ];
-    final List<bool> _selections = List.generate(6, (index) => false).obs;
+    final _selections = Get.arguments['list'];
     ProductController p = Get.put(ProductController());
     UserController u = Get.put(UserController());
     bool isDeskTop = GetPlatform.isDesktop;
+    p.changeCategory(Get.arguments['category']);
 
     // final el = window.document.getElementById('__ff-recaptcha-container');
     // if (el != null) {
     //   el.style.visibility = 'hidden';
     // }
     return Obx(
-      () => WillPopScope(
-        onWillPop: () async => true,
-        child: Scaffold(floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+      () => SafeArea(
+        child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
           floatingActionButton: CustomFloating(u: u),
           body: Column(
             children: [
+              Expanded(
+                child: Container(
+                  child: Row(
+                    children: [
+                      Expanded(child: Container()),
+                      Expanded(child: Image.asset("assets/logo.png")),
+                      Expanded(
+                          child: TextButton.icon(
+                              onPressed: () {},
+                              icon: Icon(Icons.search),
+                              label: Text("상품검색")))
+                    ],
+                  ),
+                ),
+                flex: 2,
+              ),
               Expanded(
                 flex: 1,
                 child: Container(
@@ -73,7 +89,8 @@ class HomePage extends StatelessWidget {
                   children: List.generate(p.products.length, (index) {
                     return CachedNetworkImage(
                       imageUrl: p.products[index].mainImageUrl!,
-                      imageBuilder: (context, imageProvider) => GestureDetector(
+                      imageBuilder: (context, imageProvider) =>
+                          GestureDetector(
                         onTap: () async {
                           await p.findById(p.products[index].id!);
                           Get.to(() => DetailPage(),
@@ -103,4 +120,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
