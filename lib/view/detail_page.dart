@@ -19,101 +19,103 @@ class DetailPage extends StatelessWidget {
     UserController u = Get.find();
 
     return Obx(
-      () => WillPopScope(
-        onWillPop: () async => true,
-        child: Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-          floatingActionButton: CustomFloating(u: u),
-          body: ListView(
-            children: [
-              u.principal.value.email == "tkdtn@tmdgks.com"
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        TextButton(
-                            onPressed: () async {
-                              Get.to(() => UpdatePage());
-                            },
-                            child: Text("수정")),
-                        TextButton(
-                            onPressed: () async {
-                              await p.delete(p.product.value.id!);
-                              Get.off(() => HomePage());
-                            },
-                            child: Text("삭제")),
-                      ],
-                    )
-                  : Container(),
-              Row(mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CachedNetworkImage(
-                    height: 400,
-                    width: 300,
-                    imageUrl: p.product.value.mainImageUrl!,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.fill,
-                          // colorFilter:
-                          // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                        ),
-                      ),
-                    ),
-                    placeholder: (context, url) => CircularProgressIndicator(),
-                    errorWidget: (context, url, error) {
-                      print(error);
-                      return Icon(Icons.error);
-                    },
-                  ),
-                  Column(
-                    children: [Text("dd"), Text("zz")],
-                  )
-                ],
-              ),
-              CustomElevatedButton(
-                text: "주문하기",
-                funPageRoute: () {
-                  Get.to(() => OrderPage());
-                },
-              ),
-              ListView.separated(
-                itemCount: p.product.value.detailImageUrl!.length,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CachedNetworkImage(
-                        height: 400,
-                        width: 300,
-                        imageUrl: p.product.value.detailImageUrl![index],
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: imageProvider,
-                              fit: BoxFit.fill,
-                              // colorFilter:
-                              // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                            ),
+      () => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Scaffold(
+            floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
+            floatingActionButton: CustomFloating(u: u),
+            body: ListView(
+              children: [
+                u.principal.value.email == "tkdtn@tmdgks.com"
+                    ? Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          TextButton(
+                              onPressed: () async {
+                                Get.to(() => UpdatePage());
+                              },
+                              child: Text("수정")),
+                          TextButton(
+                              onPressed: () async {
+                                await p.delete(p.product.value.id!);
+                                Get.off(() => HomePage());
+                              },
+                              child: Text("삭제")),
+                        ],
+                      )
+                    : Container(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    CachedNetworkImage(
+                      imageUrl: p.product.value.mainImageUrl!,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                            // colorFilter:
+                            // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                           ),
                         ),
-                        placeholder: (context, url) =>
-                            CircularProgressIndicator(),
-                        errorWidget: (context, url, error) {
-                          print(error);
-                          return Icon(Icons.error);
-                        },
                       ),
-                    ],
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return Divider();
-                },
-              )
-            ],
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) {
+                        print(error);
+                        return Icon(Icons.error);
+                      },
+                    ),
+                    Column(
+                      children: [Text("dd"), Text("zz")],
+                    )
+                  ],
+                ),
+                CustomElevatedButton(
+                  text: "주문하기",
+                  funPageRoute: () {
+                    Get.to(() => OrderPage());
+                  },
+                ),
+                ListView.separated(
+                  itemCount: p.product.value.detailImageUrl!.length,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CachedNetworkImage(
+                          height: 400,
+                          width: 300,
+                          imageUrl: p.product.value.detailImageUrl![index],
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.cover,
+                                // colorFilter:
+                                // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                              ),
+                            ),
+                          ),
+                          placeholder: (context, url) =>
+                              CircularProgressIndicator(),
+                          errorWidget: (context, url, error) {
+                            print(error);
+                            return Icon(Icons.error);
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Divider();
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:panda/controller/product_controller.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String hint;
   final funValidator;
   final controller;
+
 
   const CustomTextFormField({
     required this.hint,
@@ -20,7 +23,7 @@ class CustomTextFormField extends StatelessWidget {
         validator: funValidator,
         obscureText: hint == "Password" ? true : false,
         decoration: InputDecoration(
-          hintText: "Enter $hint",
+          hintText: hint,
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20),
           ),

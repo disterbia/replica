@@ -138,29 +138,6 @@ class TempPage extends StatelessWidget {
                               Expanded(child: Row(children: createButton(3, 6)))
                             ],
                           )
-                    // ToggleButtons(
-                    //   children: [
-                    //     Text(categoris[0]),
-                    //     Text(categoris[1]),
-                    //     Text(categoris[2]),
-                    //     Text(categoris[3]),
-                    //     Text(categoris[4]),
-                    //     Text(categoris[5])
-                    //   ],
-                    //   isSelected: _selections,
-                    //   onPressed: (index) {
-                    //     for (int i = 0; i < _selections.length; i++) {
-                    //       _selections[i] = i == index;
-                    //     }
-                    //     Get.to(
-                    //       () => HomePage(),
-                    //       arguments: {
-                    //         "list": _selections,
-                    //         "category": categoris[index]
-                    //       },
-                    //     );
-                    //   },
-                    // ),
                     )
               ],
             ),

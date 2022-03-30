@@ -6,7 +6,7 @@ import 'package:panda/model/product.dart';
 import '../components/custom_elevated_button.dart';
 import '../components/custom_text_form_field.dart';
 import '../util/validator_util.dart';
-import 'home_page.dart';
+import 'temp_page.dart';
 
 class WritePage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
@@ -125,7 +125,7 @@ class WritePage extends StatelessWidget {
                         detailImageUrl: list,
                         category: category
                       )); // 3초 (로딩 그림)
-                      Get.off(() => HomePage());
+                      Get.off(() => TempPage());
                     }
                   },
                 ),

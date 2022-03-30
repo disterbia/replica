@@ -4,7 +4,7 @@ import 'package:panda/controller/user_controller.dart';
 import 'package:panda/util/validator_util.dart';
 import 'package:panda/components/custom_elevated_button.dart';
 import 'package:panda/components/custom_text_form_field.dart';
-import 'package:panda/view/home_page.dart';
+import 'package:panda/view/temp_page.dart';
 import 'package:get/get.dart';
 
 import 'join_page.dart';
@@ -62,7 +62,7 @@ class LoginPage extends StatelessWidget {
                 bool result =
                     await u.login(_username.text.trim(), _password.text.trim());
                 if (result) {
-                  Get.to(() => HomePage());
+                  Get.to(() => TempPage());
                 } else {
                   Get.snackbar("로그인 시도", "로그인 실패");
                 }
