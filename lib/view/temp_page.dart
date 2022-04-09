@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/temp_controller.dart';
 import 'package:panda/view/home_page.dart';
 import 'package:panda/view/temp_update.dart';
@@ -13,6 +14,7 @@ class TempPage extends StatelessWidget {
 
   TempContrlloer t = Get.put(TempContrlloer());
   UserController u = Get.put(UserController());
+  ProductController p = Get.put(ProductController());
 
   bool isDeskTop = GetPlatform.isDesktop;
   final List<String> categoris = [

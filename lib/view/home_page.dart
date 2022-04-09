@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
             floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
             floatingActionButton: CustomFloating(u: u),
             body: ListView(
-              children: [
+                            children: [
                 Container(height: Get.height/10,
                   child: Image.asset("assets/logo.png"),
                 ),
@@ -84,11 +84,11 @@ class HomePage extends StatelessWidget {
                 isDeskTop
                     ? Row(children: createButton(0, 6))
                     : Column(
-                        children: [
-                          Row(children: createButton(0, 3)),
-                          Row(children: createButton(3, 6))
-                        ],
-                      ),
+                  children: [
+                    Row(children: createButton(0, 3)),
+                    Row(children: createButton(3, 6))
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: Row(
@@ -112,11 +112,11 @@ class HomePage extends StatelessWidget {
                                 ),
                               ))),
                       TextButton.icon(
-                          onPressed: () {
-                            p.search(_search.text, nowCategory);
-                          },
-                          icon: Icon(Icons.search),
-                          label: Text("검색"),),
+                        onPressed: () {
+                          p.search(_search.text, nowCategory);
+                        },
+                        icon: Icon(Icons.search),
+                        label: Text("검색"),),
                     ],
                   ),
                 ),
@@ -138,22 +138,22 @@ class HomePage extends StatelessWidget {
                             imageUrl: p.products[index].mainImageUrl!,
                             imageBuilder: (context, imageProvider) =>
                                 GestureDetector(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                    // colorFilter:
-                                    // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                        // colorFilter:
+                                        // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                      ),
+                                    ),
                                   ),
+                                  onTap: () async {
+                                    await p.findById(p.products[index].id!);
+                                    Get.to(() => DetailPage(),
+                                        transition: Transition.size);
+                                  },
                                 ),
-                              ),
-                              onTap: () async {
-                                await p.findById(p.products[index].id!);
-                                Get.to(() => DetailPage(),
-                                    transition: Transition.size);
-                              },
-                            ),
                             //placeholder: (context, url) => CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
@@ -161,7 +161,7 @@ class HomePage extends StatelessWidget {
                         ),
                         Text(p.products[index].name!,style: TextStyle(fontWeight: FontWeight.bold),),
                         Text(p.products[index].comment!),
-                        Text(NumberFormat("###,###,### 원").format(int.parse(p.products[index].price!))),
+                        Text(NumberFormat("###,###,### 원").format(int.parse(p.products[index].price!)),style: TextStyle(color: Colors.orange),),
                       ],
                     );
                   },
