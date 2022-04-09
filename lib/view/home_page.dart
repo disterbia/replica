@@ -7,6 +7,7 @@ import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/sign_in.dart';
+import 'package:panda/view/temp_page.dart';
 import 'package:panda/view/write_page.dart';
 
 import '../components/cumstom_floating.dart';
@@ -18,6 +19,7 @@ import 'my_page.dart';
 class HomePage extends StatelessWidget {
   final _search = TextEditingController();
   final _selections = Get.arguments['selection'];
+  final _index = Get.arguments["index"];
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDeskTop = GetPlatform.isDesktop;
@@ -33,8 +35,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String nowCategory = categoris[Get.arguments["index"]];
-    p.changeCategory(categoris[Get.arguments["index"]]);
+    String nowCategory = categoris[_index];
+
 
     // final el = window.document.getElementById('__ff-recaptcha-container');
     // if (el != null) {
@@ -75,8 +77,10 @@ class HomePage extends StatelessWidget {
             floatingActionButton: CustomFloating(u: u),
             body: ListView(
                             children: [
-                Container(height: Get.height/10,
-                  child: Image.asset("assets/logo.png"),
+                GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                  child: Container(height: Get.height/10,
+                    child: Image.asset("assets/logo.png"),
+                  ),
                 ),
                 SizedBox(
                   height: 10,

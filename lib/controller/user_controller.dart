@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panda/model/user.dart';
 import 'package:panda/repository/user_repository.dart';
 
 class UserController extends GetxController {
   final UserRepositoy _userRepositoy = UserRepositoy();
   final principal = User().obs;
-  final RxBool isLogin = false.obs;
+  final box=GetStorage();
 
   Future<void> logout() async {
     await _userRepositoy.logout();
-    this.isLogin.value = false;
     this.principal.value = User();
+    box.remove('uid');
+    box.remove("isLogin");
   }
 
   Future<bool> join(String email, String password, String username,
@@ -20,7 +22,8 @@ class UserController extends GetxController {
 
     if (principal.uid != null) {
       this.principal.value = principal;
-      this.isLogin.value= true;
+      box.write("uid", principal.uid);
+      box.write("isLogin",true);
       return true;
     }
     return false;
@@ -31,7 +34,8 @@ class UserController extends GetxController {
 
     if (principal.uid != null) {
       this.principal.value = principal;
-      this.isLogin.value= true;
+      box.write("uid", principal.uid);
+      box.write("isLogin",true);
       return true;
     }
     return false;

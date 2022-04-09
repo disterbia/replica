@@ -8,6 +8,7 @@ class Product {
   final String? mainImageUrl;
   final String? category;
   final List<dynamic>? detailImageUrl;
+  final List<dynamic>? size;
   final DateTime? created;
   final DateTime? updated;
 
@@ -18,6 +19,7 @@ class Product {
     this.mainImageUrl,
     this.category,
     this.detailImageUrl,
+    this.size,
     this.created,
     this.updated});
 
@@ -29,6 +31,7 @@ class Product {
         mainImageUrl = json["mainImageUrl"],
         category = json["category"],
         detailImageUrl = json["detailImageUrl"],
+        size = json["size"],
         created = json["created"].toDate(),
         updated = json["updated"].toDate();
 
@@ -40,6 +43,7 @@ class Product {
         "mainImageUrl": mainImageUrl,
         "category": category,
         "detailImageUrl": detailImageUrl,
+        "size":size,
         "created": FieldValue.serverTimestamp(),
         "updated": FieldValue.serverTimestamp()
       };

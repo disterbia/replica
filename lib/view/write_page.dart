@@ -14,6 +14,7 @@ class WritePage extends StatelessWidget {
   final _comment = TextEditingController();
   final _price = TextEditingController();
   final _mainImageUrl = TextEditingController();
+  final _size = TextEditingController();
   List<TextEditingController> _detailControllerList = [];
   final textFormList = <Widget>[].obs;
   final List<bool> _selections = List.generate(6, (index) => false).obs;
@@ -85,6 +86,10 @@ class WritePage extends StatelessWidget {
                   hint: "Network Image Url (메인이미지)",
                   funValidator: validateContent(),
                 ),
+                CustomTextFormField(
+                  controller: _size,
+                  hint: "사이즈(예: 250/255/260/270) '/' 로구분",
+                ),
                 Container(
                   height: textFormList.length * 60,
                   child: ListView.builder(
@@ -114,18 +119,26 @@ class WritePage extends StatelessWidget {
                   text: "글쓰기",
                   funPageRoute: () async {
                     if (_formKey.currentState!.validate()) {
-                      List<String> list =
+                      bool temp=false;
+                      for (var element in _selections) {
+                        temp=element;
+                        if(element) break;
+                      }
+                      if(!temp) return Get.snackbar("카테고리 선택", "카테고리 선택해라");
+                        List<String> list =
                           _detailControllerList.map((e) => e.text).toList();
                       list.insert(0, _mainImageUrl.text);
+                      List<String>size=_size.text.split("/");
                       await Get.find<ProductController>().save(Product(
                         name: _name.text,
                         comment: _comment.text,
                         price: _price.text,
                         mainImageUrl: _mainImageUrl.text,
                         detailImageUrl: list,
+                        size: size,
                         category: category
                       )); // 3초 (로딩 그림)
-                      Get.off(() => TempPage());
+                      await Get.off(() => TempPage());
                     }
                   },
                 ),

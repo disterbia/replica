@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/home_page.dart';
+import 'package:panda/view/temp_page.dart';
 import 'package:panda/view/update_page.dart';
 import 'package:panda/view/write_page.dart';
 import '../components/cumstom_floating.dart';
@@ -17,9 +18,11 @@ class DetailPage extends StatelessWidget {
   UserController u = Get.find();
   bool isDesktop = GetPlatform.isDesktop;
   ScrollController _scrollController = ScrollController();
+  RxString _sizeValue="".obs;
 
   @override
   Widget build(BuildContext context) {
+    _sizeValue.value=p.product.value.size!.first;
     return Obx(
       () => SafeArea(
         child: Padding(
@@ -29,26 +32,28 @@ class DetailPage extends StatelessWidget {
             floatingActionButton: CustomFloating(u: u),
             body: SingleChildScrollView(child: Column(
                 children: [
-                  Container(
+                  GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                  child: Container(
                     height: Get.height / 10,
                     child: Image.asset("assets/logo.png"),
-                  ),
+                  )
+            ),
                   SizedBox(
                     height: 10,
                   ),
-                  u.principal.value.email == "tkdtn@tmdgks.com"
+                  u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                       ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                          onPressed: () async {
+                          onPressed: () {
                             Get.to(() => UpdatePage());
                           },
                           child: Text("수정")),
                       TextButton(
                           onPressed: () async {
                             await p.delete(p.product.value.id!);
-                            Get.off(() => HomePage());
+                             Get.off(() => TempPage());
                           },
                           child: Text("삭제")),
                     ],
@@ -138,7 +143,7 @@ class DetailPage extends StatelessWidget {
     List<Widget> list = [
       CachedNetworkImage(
         height: Get.height / 1.5,
-        width: Get.height / 1.5,
+        width: desktop?Get.height / 1.5:Get.width*0.9,
         imageUrl: p.product.value.mainImageUrl!,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
@@ -170,6 +175,27 @@ class DetailPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
+              p.product.value.size!.first!=""?Row(mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("사이즈: "),
+                DropdownButton<String>(
+                  focusColor:Colors.white,
+                  value: _sizeValue.value,
+                  //elevation: 5,
+                  style: TextStyle(color: Colors.white),
+                  iconEnabledColor:Colors.black,
+                  items: p.product.value.size!.map<DropdownMenuItem<String>>((dynamic value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value,style:TextStyle(color:Colors.black),),
+                    );
+                  }).toList(),
+                  onChanged: (String? value) {
+                    _sizeValue.value=value!;
+                  },
+                ),
+              ],
+            ):Container(),
             Text(
                 "판매가격 :  ${NumberFormat("###,###,### 원").format(int.parse(p.product.value.price!))}"),
             SizedBox(

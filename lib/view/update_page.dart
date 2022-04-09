@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/model/product.dart';
 import 'package:panda/view/detail_page.dart';
+import 'package:panda/view/temp_page.dart';
 
 import '../components/custom_elevated_button.dart';
 import '../components/custom_text_form_field.dart';
@@ -15,6 +16,7 @@ class UpdatePage extends StatelessWidget {
   final _comment = TextEditingController();
   final _price = TextEditingController();
   final _mainImageUrl = TextEditingController();
+  final _size = TextEditingController();
   List<TextEditingController> _detailControllerList = [];
   final textFormList = <Widget>[].obs;
   final List<bool> _selections = List.generate(6, (index) => false).obs;
@@ -63,6 +65,12 @@ class UpdatePage extends StatelessWidget {
          break;
        }
      }
+     String temp="";
+     List<dynamic>? size =p.product.value.size;
+     for(int i = 0 ; i<size!.length;i++){
+       temp=temp+size[i]+"/";
+     }
+     _size.text=temp;
 
     return Scaffold(
       body: Padding(
@@ -110,6 +118,10 @@ class UpdatePage extends StatelessWidget {
                   hint: "Network Image Url (메인이미지)",
                   funValidator: validateContent(),
                 ),
+                CustomTextFormField(
+                  controller: _size,
+                  hint: "사이즈(예: 250/255/260/270) '/' 로구분",
+                ),
                 Container(
                   height: textFormList.length * 60,
                   child: ListView.builder(
@@ -142,6 +154,7 @@ class UpdatePage extends StatelessWidget {
                       List<String> list =
                       _detailControllerList.map((e) => e.text).toList();
                       list.insert(0, _mainImageUrl.text);
+                      List<String> size=_size.text.split("/");
                       await Get.find<ProductController>().updateProduct(Product(
                           id: p.product.value.id,
                           name: _name.text,
@@ -149,9 +162,10 @@ class UpdatePage extends StatelessWidget {
                           price: _price.text,
                           mainImageUrl: _mainImageUrl.text,
                           detailImageUrl: list,
+                          size: size,
                           category: category
                       )); // 3초 (로딩 그림)
-                      Get.off(() => HomePage());
+                      await Get.off(() => TempPage());
                     }
                   },
                 ),

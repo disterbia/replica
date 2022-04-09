@@ -30,7 +30,6 @@ class TempPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -47,10 +46,10 @@ class TempPage extends StatelessWidget {
                       Container(
                         child: Image.asset("assets/logo.png"),
                       ),
-                      u.principal.value.email != "tkdtn@tmdgks.com"
+                      u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                           ? TextButton(
                               onPressed: () {
-                                Get.to(() => TempUpdate());
+                                Get.to(() => HomePage());
                               },
                               child: Text("편집"))
                           : Container()
@@ -164,6 +163,7 @@ class TempPage extends StatelessWidget {
           onPressed: () {
             final List<bool> _selections = List.generate(6, (index) => false);
             _selections[i] = true;
+            p.changeCategory(categoris[i]);
             Get.to(() => HomePage(),
                 arguments: {"selection": _selections, "index": i});
           },

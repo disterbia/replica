@@ -14,6 +14,7 @@ class UpdateDto {
         "price": product?.price,
         "mainImageUrl": product?.mainImageUrl,
         "category": product?.category,
+        "size"   : product?.size,
         "detailImageUrl": product?.detailImageUrl,
         "updated": FieldValue.serverTimestamp()
       };

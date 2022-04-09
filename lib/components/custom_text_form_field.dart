@@ -10,7 +10,7 @@ class CustomTextFormField extends StatelessWidget {
 
   const CustomTextFormField({
     required this.hint,
-    required this.funValidator,
+     this.funValidator,
     this.controller,
   });
 

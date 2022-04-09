@@ -26,7 +26,7 @@ class CustomFloating extends StatelessWidget {
       spaceBetweenChildren: 15,
       closeManually: false,
       children: [
-        u.principal.value.email == "tkdtn@tmdgks.com"
+        u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
             ? SpeedDialChild(
             child: Icon(Icons.share_rounded),
             label: "상품등록",
@@ -37,16 +37,16 @@ class CustomFloating extends StatelessWidget {
             : SpeedDialChild(),
         SpeedDialChild(
             child: Icon(Icons.share_rounded),
-            label: u.isLogin.value ? "로그아웃" : "로그인",
+            label: u.box.hasData("isLogin") ? "로그아웃" : "로그인",
             backgroundColor: Colors.blue,
             onTap: () {
-              u.isLogin.value ? u.logout() : Get.to(() => LoginPage());
+              u.box.hasData("isLogin") ? u.logout() : Get.to(() => LoginPage());
             }),
         SpeedDialChild(
             child: Icon(Icons.mail),
-            label: u.isLogin.value ? "마이페이지" : "회원가입",
+            label: u.box.hasData("isLogin") ? "마이페이지" : "회원가입",
             onTap: () {
-              Get.to(() => u.isLogin.value ? MyPage() : JoinPage());
+              Get.to(() => u.box.hasData("isLogin") ? MyPage() : JoinPage());
             }),
       ],
     );
