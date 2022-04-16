@@ -13,11 +13,12 @@ class Order {
   final Product? product;
   final String? payName;
   final String? address;
+  final String? memo;
   String? state;
   final DateTime? created;
   final DateTime? updated;
 
-  Order({this.id,this.uid,this.user, this.product,this.payName,this.address, this.state, this.created, this.updated});
+  Order({this.id,this.uid,this.user, this.product,this.payName,this.address,this.memo, this.state, this.created, this.updated});
 
   Order.fromJson(Map<String, dynamic> json)
       : id = json["id"],
@@ -26,6 +27,7 @@ class Order {
         product = Product.fromJson(json["product"]),
         payName = json["pay_name"],
         address = json["address"],
+        memo = json["memo"],
         state = json["state"],
         created = json["created"].toDate(),
         updated = json["updated"].toDate();
@@ -36,6 +38,7 @@ class Order {
         "product": Get.find<ProductController>().product.value.toJsonContainId(),
         "pay_name" : payName,
         "address"  : address,
+        "memo"     : memo,
         "state": state,
         "created": FieldValue.serverTimestamp(),
         "updated": FieldValue.serverTimestamp()

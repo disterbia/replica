@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/order.dart';
@@ -15,21 +14,26 @@ class MyPage extends StatelessWidget {
     return Scaffold(
         body: Padding(
           padding: const EdgeInsets.all(8.0),
+      child: Center(
+        child: SingleChildScrollView(scrollDirection: Axis.horizontal,
           child: SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-          child: Column(
-              children: [
-                GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                  child: Container(height: Get.height/10,
-                    child: Image.asset("assets/logo.png"),
-                  ),
-                ),
-                DataTable(columns: getColumns(), rows: getRows()),
-              ]),
+              child: Column(
+                  children: [
+                    GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                      child: Container(height: Get.height/10,
+                        child: Image.asset("assets/logo.png"),
+                      ),
+                    ),
+                    SizedBox(height:50),
+                    Text("주문내역"),
+                    SizedBox(height: 50),
+                    DataTable(columns: getColumns(), rows: getRows()),
+                  ]),
+          ),
+        ),
       ),
     ),
-        ));
+        );
   }
 
   List<DataColumn> getColumns() {

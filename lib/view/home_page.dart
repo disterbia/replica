@@ -47,23 +47,21 @@ class HomePage extends StatelessWidget {
       List<Widget> list = [];
       for (int i = a; i < categoris.length; i++) {
         if (i == b) break;
-        list.add(Expanded(
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                primary: _selections[i] ? Colors.grey : Colors.transparent,
-                shadowColor: Colors.transparent,
-                onPrimary: Colors.black),
-            onPressed: () {
-              for (int j = 0; j < _selections.length; j++) {
-                _selections[j] = i == j;
-              }
-              nowCategory = categoris[i];
-              p.changeCategory(categoris[i]);
-              _search.clear();
-            },
-            child: Text(categoris[i], style: TextStyle(color: Colors.black)),
-          ),
+        list.add(ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              minimumSize: Size(50, 50),
+              primary: _selections[i] ? Colors.grey : Colors.transparent,
+              shadowColor: Colors.transparent,
+              onPrimary: Colors.black),
+          onPressed: () {
+            for (int j = 0; j < _selections.length; j++) {
+              _selections[j] = i == j;
+            }
+            nowCategory = categoris[i];
+            p.changeCategory(categoris[i]);
+            _search.clear();
+          },
+          child: Text(categoris[i], style: TextStyle(color: Colors.black)),
         ));
       }
       return list;
@@ -75,102 +73,109 @@ class HomePage extends StatelessWidget {
           child: Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
             floatingActionButton: CustomFloating(u: u),
-            body: ListView(
-                            children: [
-                GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                  child: Container(height: Get.height/10,
-                    child: Image.asset("assets/logo.png"),
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                isDeskTop
-                    ? Row(children: createButton(0, 6))
-                    : Column(
-                  children: [
-                    Row(children: createButton(0, 3)),
-                    Row(children: createButton(3, 6))
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Container(
-                              height: 50,
-                              child: TextFormField(
-                                onFieldSubmitted: (v){
-                                  p.search(v, nowCategory);
-                                },
-                                controller: _search,
-                                decoration: InputDecoration(
-                                  hintText: '$nowCategory 상품 검색',
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
+            body: Center(
+              child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+                  child: Column(
+                                  children: [
+                      GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                        child: Container(height: 100,
+                          child: Image.asset("assets/logo.png"),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+
+                      isDeskTop
+                          ? Row(children: createButton(0, 6))
+                          : Column(
+                        children: [
+                          Row(children: createButton(0, 3)),
+                          Row(children: createButton(3, 6))
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 300,
+                                child: TextFormField(
+                                  onFieldSubmitted: (v){
+                                    p.search(v, nowCategory);
+                                  },
+                                  controller: _search,
+                                  decoration: InputDecoration(
+                                    hintText: '$nowCategory 상품 검색',
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(20),
+                                )),
+                            TextButton.icon(
+                              onPressed: () {
+                                p.search(_search.text, nowCategory);
+                              },
+                              icon: Icon(Icons.search),
+                              label: Text("검색"),),
+                          ],
+                        ),
+                      ),
+                      Container(width: 1400,
+                        child: GridView.builder( physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: p.products.length,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: isDeskTop ? 4 : 2,
+                            crossAxisSpacing: 10,mainAxisSpacing: 20,
+                            childAspectRatio: isDeskTop
+                                ? 0.8
+                                : 0.7,
+                          ),
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                Expanded(flex:10,
+                                  child: CachedNetworkImage(
+                                    imageUrl: p.products[index].mainImageUrl!,
+                                    imageBuilder: (context, imageProvider) =>
+                                        GestureDetector(
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover,
+                                                // colorFilter:
+                                                // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                              ),
+                                            ),
+                                          ),
+                                          onTap: () async {
+                                            await p.findById(p.products[index].id!);
+                                            Get.to(() => DetailPage(),
+                                                transition: Transition.size);
+                                          },
+                                        ),
+                                    //placeholder: (context, url) => CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Icon(Icons.error),
                                   ),
                                 ),
-                              ))),
-                      TextButton.icon(
-                        onPressed: () {
-                          p.search(_search.text, nowCategory);
-                        },
-                        icon: Icon(Icons.search),
-                        label: Text("검색"),),
+                                Expanded(child: Text(p.products[index].name!,style: TextStyle(fontWeight: FontWeight.bold),)),
+                                Expanded(child: Text(p.products[index].comment!)),
+                                Expanded(child: Text(NumberFormat("###,###,### 원").format(int.parse(p.products[index].price!)),style: TextStyle(color: Colors.orange),)),
+                              ],
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
                 ),
-                GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: p.products.length,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: isDeskTop ? 4 : 2,
-                    crossAxisSpacing: 10,mainAxisSpacing: 20,
-                    childAspectRatio: isDeskTop
-                        ? 0.8
-                        : 0.7,
-                  ),
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: CachedNetworkImage(
-                            imageUrl: p.products[index].mainImageUrl!,
-                            imageBuilder: (context, imageProvider) =>
-                                GestureDetector(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover,
-                                        // colorFilter:
-                                        // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                      ),
-                                    ),
-                                  ),
-                                  onTap: () async {
-                                    await p.findById(p.products[index].id!);
-                                    Get.to(() => DetailPage(),
-                                        transition: Transition.size);
-                                  },
-                                ),
-                            //placeholder: (context, url) => CircularProgressIndicator(),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
-                          ),
-                        ),
-                        Text(p.products[index].name!,style: TextStyle(fontWeight: FontWeight.bold),),
-                        Text(p.products[index].comment!),
-                        Text(NumberFormat("###,###,### 원").format(int.parse(p.products[index].price!)),style: TextStyle(color: Colors.orange),),
-                      ],
-                    );
-                  },
-                ),
-              ],
+              ),
             ),
           ),
         ),

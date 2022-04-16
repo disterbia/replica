@@ -86,7 +86,7 @@ class TempPage extends StatelessWidget {
                       },
                       itemCount: t.temps.length,
                       options: CarouselOptions(
-                        height: double.infinity,
+                        height: 600,
                         aspectRatio: 1,
                         viewportFraction: 0.8,
                         initialPage: 0,

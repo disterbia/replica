@@ -18,7 +18,6 @@ class DetailPage extends StatelessWidget {
   ProductController p = Get.find();
   UserController u = Get.find();
   bool isDesktop = GetPlatform.isDesktop;
-  ScrollController _scrollController = ScrollController();
   RxString _sizeValue="".obs;
 
   @override
@@ -31,108 +30,106 @@ class DetailPage extends StatelessWidget {
           child: Scaffold(
             floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
             floatingActionButton: CustomFloating(u: u),
-            body: SingleChildScrollView(child: Column(
-                children: [
-                  GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                  child: Container(
-                    height: Get.height / 10,
-                    child: Image.asset("assets/logo.png"),
-                  )
-            ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
-                      ? Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+            body: Center(
+              child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(child: Column(
                     children: [
-                      TextButton(
-                          onPressed: () {
-                            Get.to(() => UpdatePage());
-                          },
-                          child: Text("수정")),
-                      TextButton(
-                          onPressed: () async {
-                            await p.delete(p.product.value.id!);
-                             Get.off(() => TempPage());
-                          },
-                          child: Text("삭제")),
-                    ],
-                  )
-                      : Container(),
-                  isDesktop
-                      ? Scrollbar(isAlwaysShown: true,controller: _scrollController,
-                        child: SingleChildScrollView(scrollDirection: Axis.horizontal,controller: _scrollController,
-                          child: Row(children:order(isDesktop) ,
-                  ),
-                        ),
+                      GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                      child: Container(
+                        height: 100,
+                        child: Image.asset("assets/logo.png"),
                       )
-                      : Column(
-                    children: order(isDesktop),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                      width: double.infinity,
-                      height: 30,
-                      color: Colors.blueGrey.shade50,
-                      child: Center(
-                        child: Text(
-                          "상품상세보기",
-                          style: TextStyle(
-                            fontSize: 20,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10.0,
-                                color: Colors.orange,
-                                offset: Offset(5.0, 5.0),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  ListView.separated(
-                    itemCount: p.product.value.detailImageUrl!.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                          ? Row(
                         children: [
-                          CachedNetworkImage(
-                            height: isDesktop?400:Get.height/2,
-                            width: isDesktop?400:Get.height/2,
-                            imageUrl: p.product.value.detailImageUrl![index],
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                  // colorFilter:
-                                  // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                ),
+                          TextButton(
+                              onPressed: () {
+                                Get.to(() => UpdatePage());
+                              },
+                              child: Text("수정")),
+                          TextButton(
+                              onPressed: () async {
+                                await p.delete(p.product.value.id!);
+                                 Get.off(() => TempPage());
+                              },
+                              child: Text("삭제")),
+                        ],
+                      )
+                          : Container(),
+                      isDesktop
+                          ?  Row(children:order(isDesktop) ,
+                      )
+
+                          : Column(
+                        children: order(isDesktop),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                          width: 1000,
+                          height: 30,
+                          color: Colors.blueGrey.shade50,
+                          child: Center(
+                            child: Text(
+                              "상품상세보기",
+                              style: TextStyle(
+                                fontSize: 20,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10.0,
+                                    color: Colors.orange,
+                                    offset: Offset(5.0, 5.0),
+                                  ),
+                                ],
                               ),
                             ),
-                            placeholder: (context, url) =>
-                                CircularProgressIndicator(),
-                            errorWidget: (context, url, error) {
-                              print(error);
-                              return Icon(Icons.error);
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                    separatorBuilder: (context, index) {
-                      return Divider();
-                    },
-                  )
-                ]
-            ),
+                          )),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(width: 1400,
+                        child: ListView.separated(
+                          itemCount: p.product.value.detailImageUrl!.length,
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return Center(
+                              child: CachedNetworkImage(
+                                height: isDesktop?500:Get.height/2,
+                                width: isDesktop?500:Get.height/2,
+                                imageUrl: p.product.value.detailImageUrl![index],
+                                imageBuilder: (context, imageProvider) => Container(
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(fit: BoxFit.none,
+                                      image: imageProvider,
+                                      // colorFilter:
+                                      // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                    ),
+                                  ),
+                                ),
+                                placeholder: (context, url) =>
+                                    CircularProgressIndicator(),
+                                errorWidget: (context, url, error) {
+                                  print(error);
+                                  return Icon(Icons.error);
+                                },
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) {
+                            return Divider();
+                          },
+                        ),
+                      )
+                    ]
+                ),
+                ),
+              ),
             ),
           ),
         ),
@@ -143,14 +140,13 @@ class DetailPage extends StatelessWidget {
   List<Widget> order(bool desktop) {
     List<Widget> list = [
       CachedNetworkImage(
-        height: Get.height / 1.5,
-        width: desktop?Get.height / 1.5:Get.width*0.9,
+        height: 500 ,
+        width: 500 ,
         imageUrl: p.product.value.mainImageUrl!,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
             image: DecorationImage(
               image: imageProvider,
-              fit: BoxFit.cover,
               // colorFilter:
               // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
             ),

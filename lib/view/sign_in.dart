@@ -20,21 +20,32 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView(
-          children: [
-            Container(
-              alignment: Alignment.center,
-              height: 200,
-              child: Text(
-                "로그인 페이지 ",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
+        child: Center(
+          child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                    child: Container(height: 100,
+                      child: Image.asset("assets/logo.png"),
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 200,
+                    child: Text(
+                      "로그인 페이지 ",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  _loginForm(),
+                ],
               ),
             ),
-            _loginForm(),
-          ],
+          ),
         ),
       ),
     );

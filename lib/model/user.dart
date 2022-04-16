@@ -4,6 +4,7 @@ class User {
   final String? username;
   final String? phoneNumber;
   final String? address;
+  final String? point;
   final DateTime? created;
   final DateTime? updated;
 
@@ -13,6 +14,7 @@ class User {
       this.username,
       this.phoneNumber,
       this.address,
+        this.point,
       this.created,
       this.updated});
 
@@ -22,6 +24,7 @@ class User {
         phoneNumber = json["phoneNumber"],
         email = json["email"],
         address = json["address"],
+        point=json["point"],
         created = json["created"].toDate(),
         updated = json["updated"].toDate();
 
@@ -31,6 +34,7 @@ class User {
         "phoneNumber": phoneNumber,
         "address": address,
         "email": email,
+        "point": point,
         "created": created,
         "updated": updated,
       };
