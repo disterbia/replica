@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
@@ -41,7 +42,7 @@ class DetailPage extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                  u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                       ? Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

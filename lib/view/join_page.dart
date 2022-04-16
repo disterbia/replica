@@ -43,23 +43,42 @@ class JoinPage extends StatelessWidget {
       ),
     );
   }
+  void funSubmit() async {
+    if (_formKey.currentState!.validate()) {
+      bool emailCheck = await u.checkEmail(_email.text.trim());
+      if (!emailCheck) {
+        Get.snackbar("회원가입 실패", "이메일 중복");
+        return;
+      }
+      bool result = await u.join(
+          _email.text.trim(),
+          _password.text.trim(),
+          _username.text.trim(),
+          _phoneNumber.text.trim());
 
+      if (result) {
+        Get.offAll(() => HomePage());
+      } else {
+        Get.snackbar("회원가입 시도", "회원가입 실패");
+      }
+    }
+  }
   Widget _joinForm() {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          CustomTextFormField(
+          CustomTextFormField(funSubmit: funSubmit,
             hint: "Email",
             controller: _email,
             funValidator: validateEmail(),
           ),
-          CustomTextFormField(
+          CustomTextFormField(funSubmit: funSubmit,
             hint: "Password",
             controller: _password,
             funValidator: validatePassword(),
           ),
-          CustomTextFormField(
+          CustomTextFormField(funSubmit: funSubmit,
             hint: "Name",
             controller: _username,
             funValidator: validateUsername(),
@@ -68,7 +87,7 @@ class JoinPage extends StatelessWidget {
             children: [
               Expanded(
                 flex: 10,
-                child: CustomTextFormField(
+                child: CustomTextFormField(funSubmit: funSubmit,
                   hint: "Phone Number",
                   controller: _phoneNumber,
                   funValidator: validatePhoneNumber(),
@@ -95,7 +114,7 @@ class JoinPage extends StatelessWidget {
             children: [
               Expanded(
                 flex: 10,
-                child: CustomTextFormField(
+                child: CustomTextFormField(funSubmit: funSubmit,
                   hint: "인증번호",
                   controller: _code,
                   funValidator: validateCode(),
@@ -117,26 +136,7 @@ class JoinPage extends StatelessWidget {
           ),
           CustomElevatedButton(
             text: "회원가입",
-            funPageRoute: () async {
-              if (_formKey.currentState!.validate()) {
-                bool emailCheck = await u.checkEmail(_email.text.trim());
-                if (!emailCheck) {
-                  Get.snackbar("회원가입 실패", "이메일 중복");
-                  return;
-                }
-                bool result = await u.join(
-                    _email.text.trim(),
-                    _password.text.trim(),
-                    _username.text.trim(),
-                    _phoneNumber.text.trim());
-
-                if (result) {
-                  Get.offAll(() => HomePage());
-                } else {
-                  Get.snackbar("회원가입 시도", "회원가입 실패");
-                }
-              }
-            },
+            funPageRoute: funSubmit
           ),
           TextButton(
             onPressed: () {

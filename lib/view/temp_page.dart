@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/temp_controller.dart';
 import 'package:panda/view/home_page.dart';
@@ -30,6 +31,7 @@ class TempPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -46,10 +48,10 @@ class TempPage extends StatelessWidget {
                       Container(
                         child: Image.asset("assets/logo.png"),
                       ),
-                      u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                      u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                           ? TextButton(
                               onPressed: () {
-                                Get.to(() => HomePage());
+                                Get.to(() => TempUpdate());
                               },
                               child: Text("편집"))
                           : Container()

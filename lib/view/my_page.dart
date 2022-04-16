@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/order.dart';
@@ -35,7 +36,7 @@ class MyPage extends StatelessWidget {
     List<String> masterColumns = ["번호", "이름", "상품명", "가격", "주소", "입금자명", "상태"];
     List<String> customerColumns = ["번호", "상품명", "가격", "주소", "입금자명", "상태"];
     List<String> nowColumns =
-        u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2"
+    u.principal.value.uid  == "chRfCQk6Z0S857O88T2A6aAKOVg2"
             ? masterColumns
             : customerColumns;
     List<DataColumn> columns = [];
@@ -50,7 +51,7 @@ class MyPage extends StatelessWidget {
     List<Order> orders = o.orders;
     List<DataRow> rows = [];
     for (var i = 0; i < orders.length; i++) {
-      if (u.box.read("uid") == "chRfCQk6Z0S857O88T2A6aAKOVg2") {
+      if (u.principal.value.uid  == "chRfCQk6Z0S857O88T2A6aAKOVg2") {
         List<DataCell> cells = [];
         cells.add(DataCell(Text("$i")));
         cells.add(DataCell(Text(orders[i].user!.username!)));

@@ -39,35 +39,35 @@ class LoginPage extends StatelessWidget {
       ),
     );
   }
-
+  void funSubmit() async{
+    if (_formKey.currentState!.validate()) {
+      bool result =
+      await u.login(_username.text.trim(), _password.text.trim());
+      if (result) {
+        Get.to(() => TempPage());
+      } else {
+        Get.snackbar("로그인 시도", "로그인 실패");
+      }
+    }
+  }
   Widget _loginForm() {
     return Form(
       key: _formKey,
       child: Column(
         children: [
-          CustomTextFormField(
+          CustomTextFormField(funSubmit:funSubmit,
             controller: _username,
             hint: "Email",
             funValidator: validateEmail(),
           ),
-          CustomTextFormField(
+          CustomTextFormField(funSubmit:funSubmit,
             controller: _password,
             hint: "Password",
             funValidator: validatePassword(),
           ),
           CustomElevatedButton(
             text: "로그인",
-            funPageRoute: () async {
-              if (_formKey.currentState!.validate()) {
-                bool result =
-                    await u.login(_username.text.trim(), _password.text.trim());
-                if (result) {
-                  Get.to(() => TempPage());
-                } else {
-                  Get.snackbar("로그인 시도", "로그인 실패");
-                }
-              }
-            },
+            funPageRoute: funSubmit
           ),
           TextButton(
             onPressed: () {

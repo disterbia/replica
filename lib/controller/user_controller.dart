@@ -7,14 +7,13 @@ import 'package:panda/repository/user_repository.dart';
 class UserController extends GetxController {
   final UserRepositoy _userRepositoy = UserRepositoy();
   final principal = User().obs;
-  final box=GetStorage();
   final OrderController o = Get.put(OrderController());
 
   Future<void> logout() async {
     await _userRepositoy.logout();
     this.principal.value = User();
-    box.remove('uid');
-    box.remove("isLogin");
+    GetStorage().remove('uid');
+
   }
 
   Future<bool> join(String email, String password, String username,
@@ -24,8 +23,8 @@ class UserController extends GetxController {
 
     if (principal.uid != null) {
       this.principal.value = principal;
-      box.write("uid", principal.uid);
-      box.write("isLogin",true);
+      GetStorage().write("uid", principal.uid);
+
       if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
       else await o.findByUid(principal.uid!);
       return true;
@@ -38,8 +37,7 @@ class UserController extends GetxController {
 
     if (principal.uid != null) {
       this.principal.value = principal;
-      box.write("uid", principal.uid);
-      box.write("isLogin",true);
+      GetStorage().write("uid", principal.uid);
 
       if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
       else await o.findByUid(principal.uid!);
