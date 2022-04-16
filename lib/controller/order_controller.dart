@@ -7,6 +7,7 @@ class OrderController extends GetxController{
   final OrderRepository _orderRepository = OrderRepository();
   final orders = <Order>[].obs;
 
+
   Future<void> findAll() async{
     List<Order> orders = await _orderRepository.findAll();
     this.orders.value=orders;

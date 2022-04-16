@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:panda/controller/order_controller.dart';
 import 'package:panda/model/user.dart';
 import 'package:panda/repository/user_repository.dart';
 
@@ -7,6 +8,7 @@ class UserController extends GetxController {
   final UserRepositoy _userRepositoy = UserRepositoy();
   final principal = User().obs;
   final box=GetStorage();
+  final OrderController o = Get.put(OrderController());
 
   Future<void> logout() async {
     await _userRepositoy.logout();
@@ -24,6 +26,8 @@ class UserController extends GetxController {
       this.principal.value = principal;
       box.write("uid", principal.uid);
       box.write("isLogin",true);
+      if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
+      else await o.findByUid(principal.uid!);
       return true;
     }
     return false;
@@ -36,6 +40,9 @@ class UserController extends GetxController {
       this.principal.value = principal;
       box.write("uid", principal.uid);
       box.write("isLogin",true);
+
+      if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
+      else await o.findByUid(principal.uid!);
       return true;
     }
     return false;
