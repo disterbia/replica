@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 import 'package:panda/view/sign_in.dart';
 import 'package:panda/view/temp_page.dart';
 
-class JoinPage extends StatelessWidget {
+class JoinPage extends GetView<UserController> {
   final _formKey = GlobalKey<FormState>();
   final UserController u = Get.put(UserController());
 
@@ -22,37 +22,40 @@ class JoinPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: SingleChildScrollView(scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                    child: Container(height: 100,
-                      child: Image.asset("assets/logo.png"),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 200,
-                    child: Text(
-                      "회원가입 페이지",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+    return controller.obx(
+      (state)=> Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                      child: Container(height: 100,
+                        child: Image.asset("assets/logo.png"),
                       ),
                     ),
-                  ),
-                  _joinForm(),
-                ],
+                    Container(
+                      alignment: Alignment.center,
+                      height: 200,
+                      child: Text(
+                        "회원가입 페이지",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    _joinForm(),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+        onLoading: Center(child: Container(height:50,width:50,child: CircularProgressIndicator()))
     );
   }
   void funSubmit() async {
@@ -69,7 +72,7 @@ class JoinPage extends StatelessWidget {
           _phoneNumber.text.trim());
 
       if (result) {
-        Get.offAll(() => HomePage());
+        Get.off(() => HomePage());
       } else {
         Get.snackbar("회원가입 시도", "회원가입 실패");
       }

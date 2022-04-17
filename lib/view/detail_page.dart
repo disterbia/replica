@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/home_page.dart';
+import 'package:panda/view/sign_in.dart';
 import 'package:panda/view/temp_page.dart';
 import 'package:panda/view/update_page.dart';
 import 'package:panda/view/write_page.dart';
@@ -194,7 +195,7 @@ class DetailPage extends StatelessWidget {
               ],
             ):Container(),
             Text(
-                "판매가격 :  ${NumberFormat("###,###,### 원").format(int.parse(p.product.value.price!))}"),
+                "판매가격 :  ${NumberFormat("###,###,### 원").format(p.product.value.price!)}"),
             SizedBox(
               height: 10,
             ),
@@ -207,7 +208,7 @@ class DetailPage extends StatelessWidget {
               ),
               child: Text("주문하기"),
               onPressed: () {
-                Get.to(() => OrderPage());
+                Get.to(() => u.principal.value.uid==null?LoginPage():OrderPage());
               },
             ),
           ],

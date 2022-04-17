@@ -47,7 +47,7 @@ class UpdatePage extends StatelessWidget {
 
      _name.text = p.product.value.name!;
      _comment.text = p.product.value.comment!;
-     _price.text = p.product.value.price!;
+     _price.text = p.product.value.price!.toString();
      category=p.product.value.category;
     _mainImageUrl.text = p.product.value.mainImageUrl!;
 
@@ -159,7 +159,7 @@ class UpdatePage extends StatelessWidget {
                           id: p.product.value.id,
                           name: _name.text,
                           comment: _comment.text,
-                          price: _price.text,
+                          price: int.parse(_price.text),
                           mainImageUrl: _mainImageUrl.text,
                           detailImageUrl: list,
                           size: size,

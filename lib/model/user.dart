@@ -4,7 +4,8 @@ class User {
   final String? username;
   final String? phoneNumber;
   final String? address;
-  final String? point;
+  final int? point;
+  final int? totalMoney;
   final DateTime? created;
   final DateTime? updated;
 
@@ -15,6 +16,7 @@ class User {
       this.phoneNumber,
       this.address,
         this.point,
+     this.   totalMoney,
       this.created,
       this.updated});
 
@@ -25,8 +27,9 @@ class User {
         email = json["email"],
         address = json["address"],
         point=json["point"],
-        created = json["created"].toDate(),
-        updated = json["updated"].toDate();
+        totalMoney = json["totalMoney"],
+        created = json["created"]?.toDate(),
+        updated = json["updated"]?.toDate();
 
   Map<String, dynamic> toJson() => {
         "uid": uid,
@@ -35,6 +38,7 @@ class User {
         "address": address,
         "email": email,
         "point": point,
+        "totalMoney" : totalMoney,
         "created": created,
         "updated": updated,
       };

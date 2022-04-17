@@ -3,7 +3,7 @@ import 'package:panda/repository/product_repository.dart';
 
 import '../model/product.dart';
 
-class ProductController extends GetxController {
+class ProductController extends GetxController with StateMixin {
   final ProductRepository _productRepository = ProductRepository();
   final products = <Product>[].obs;
   final manCloth = <Product>[].obs;
@@ -18,17 +18,23 @@ class ProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    change(null,status: RxStatus.loading());
     findByCategory("남성의류");
     findByCategory("여성의류");
     findByCategory("남성신발");
     findByCategory("여성신발");
     findByCategory("운동화");
     findByCategory("가방/지갑/악세사리");
+    change(null, status: RxStatus.success());
   }
 
   Future<void> findById(String id) async {
+    change(null,status: RxStatus.loading());
+
     Product product = await _productRepository.findById(id);
     this.product.value = product;
+
+    change(null, status: RxStatus.success());
   }
 
   Future<void> findByCategory(String category) async {
@@ -79,26 +85,39 @@ class ProductController extends GetxController {
   }
 
   Future<void> save(Product newProduct) async {
+    change(null,status: RxStatus.loading());
     Product product = await _productRepository.save(newProduct);
     this.products.insert(0, product);
+
+    change(null, status: RxStatus.success());
   }
 
   Future<void> delete(String id) async {
+    change(null,status: RxStatus.loading());
+
     await _productRepository.delete(id);
     List<Product> result =
         products.where((product) => product.id != id).toList();
     products.value = result;
+
+    change(null, status: RxStatus.success());
   }
 
   Future<void> updateProduct(Product newProduct) async {
+    change(null,status: RxStatus.loading());
+
     await _productRepository.update(newProduct);
     Product product = await _productRepository.findById(newProduct.id!);
     this.product.value = product;
     this.products.value =
         this.products.map((e) => e.id == newProduct.id ? product : e).toList();
+
+    change(null, status: RxStatus.success());
   }
 
   void search(String txt,String category) {
+    change(null,status: RxStatus.loading());
+
     changeCategory(category);
     List<Product> result =
       this.products.where((p)
@@ -106,5 +125,7 @@ class ProductController extends GetxController {
         return p.name!.contains(txt) || p.comment!.contains(txt);
       }).toList();
     this.products.value=result;
+
+    change(null, status: RxStatus.success());
   }
 }

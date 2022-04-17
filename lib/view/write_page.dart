@@ -132,7 +132,7 @@ class WritePage extends StatelessWidget {
                       await Get.find<ProductController>().save(Product(
                         name: _name.text,
                         comment: _comment.text,
-                        price: _price.text,
+                        price: int.parse(_price.text),
                         mainImageUrl: _mainImageUrl.text,
                         detailImageUrl: list,
                         size: size,

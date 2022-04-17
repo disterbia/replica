@@ -55,6 +55,17 @@ class UserRepositoy {
     return User();
   }
 
+  Future<User> findById(String id) async {
+    QuerySnapshot querySnapshot = await _userProvider.findById(id);
+    List<QueryDocumentSnapshot> docs = querySnapshot.docs;
+    if (docs.isNotEmpty) {
+      User principal = User.fromJson(
+          querySnapshot.docs.first.data() as Map<String, dynamic>);
+      return principal;
+    }
+    return User();
+  }
+
   Future<bool> checkEmail(String email) async {
     QuerySnapshot querySnapshot = await _userProvider.checkEmail(email);
     return querySnapshot.docs.isEmpty ? true : false;
@@ -79,5 +90,13 @@ class UserRepositoy {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<void> updatePoint(String uid) async {
+    await _userProvider.updatePoint(uid);
+  }
+
+  Future<void> buyComplete(String uid ,int totalMoney,int point) async {
+    await _userProvider.buyComplete(uid,totalMoney,point);
   }
 }

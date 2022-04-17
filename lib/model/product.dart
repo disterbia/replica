@@ -4,7 +4,7 @@ class Product {
   final String? id;
   final String? name;
   final String? comment;
-  final String? price;
+  final int? price;
   final String? mainImageUrl;
   final String? category;
   final List<dynamic>? detailImageUrl;

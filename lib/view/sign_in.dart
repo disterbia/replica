@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 
 import 'join_page.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends GetView<UserController> {
   final _formKey = GlobalKey<FormState>();
   final UserController u = Get.put(UserController());
   final _username = TextEditingController();
@@ -17,37 +17,40 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: SingleChildScrollView(scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                    child: Container(height: 100,
-                      child: Image.asset("assets/logo.png"),
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    height: 200,
-                    child: Text(
-                      "로그인 페이지 ",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+    return controller.obx(
+      (state)=> Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Center(
+            child: SingleChildScrollView(scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GestureDetector(onTap:()=> Get.to(()=>TempPage()),
+                      child: Container(height: 100,
+                        child: Image.asset("assets/logo.png"),
                       ),
                     ),
-                  ),
-                  _loginForm(),
-                ],
+                    Container(
+                      alignment: Alignment.center,
+                      height: 200,
+                      child: Text(
+                        "로그인 페이지 ",
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    _loginForm(),
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
+        onLoading: Center(child: Container(height:50,width:50,child: CircularProgressIndicator()))
     );
   }
   void funSubmit() async{
@@ -55,7 +58,7 @@ class LoginPage extends StatelessWidget {
       bool result =
       await u.login(_username.text.trim(), _password.text.trim());
       if (result) {
-        Get.to(() => TempPage());
+        Get.off(() => TempPage());
       } else {
         Get.snackbar("로그인 시도", "로그인 실패");
       }
@@ -82,7 +85,7 @@ class LoginPage extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              Get.to(JoinPage());
+              Get.to(()=>JoinPage());
             },
             child: Text("아직 회원가입이 안되어 있나요?"),
           ),
