@@ -18,8 +18,13 @@ import 'my_page.dart';
 
 class HomePage extends GetView<ProductController> {
   final _search = TextEditingController();
-  final _selections = Get.arguments['selection'];
-  final _index = Get.arguments["index"];
+  final param = int.parse(Get.rootDelegate.parameters["index"]!);
+  //final param = int.parse(Get.parameters["index"]!);
+  //final args = Get.rootDelegate.currentConfiguration?.currentPage?.arguments as Map<String,dynamic>;
+  // final _selections = [];
+  // final _index = 1;
+  // final _selections = Get.arguments['selection'];
+  // final _index = Get.arguments["index"];
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDeskTop = GetPlatform.isDesktop;
@@ -35,7 +40,10 @@ class HomePage extends GetView<ProductController> {
 
   @override
   Widget build(BuildContext context) {
-    String nowCategory = categoris[_index];
+    final List<bool> _selections = List.generate(6, (index) => false);
+    _selections[param] = true;
+    String nowCategory = categoris[param];
+    p.changeCategory(nowCategory);
 
 
     // final el = window.document.getElementById('__ff-recaptcha-container');
@@ -60,6 +68,10 @@ class HomePage extends GetView<ProductController> {
             nowCategory = categoris[i];
             p.changeCategory(categoris[i]);
             _search.clear();
+            // WidgetsBinding.instance!.addPersistentFrameCallback((_) {
+            //Get.rootDelegate.toNamed("/home/$i");
+            // });
+
           },
           child: Text(categoris[i], style: TextStyle(color: Colors.black)),
         ));
@@ -156,8 +168,9 @@ class HomePage extends GetView<ProductController> {
                                             ),
                                             onTap: () async {
                                               await p.findById(p.products[index].id!);
-                                              Get.to(() => DetailPage(),
-                                                  transition: Transition.size);
+                                              Get.rootDelegate.toNamed("/detail/$index");
+                                              // Get.to(() => DetailPage(),
+                                              //     transition: Transition.size);
                                             },
                                           ),
                                       //placeholder: (context, url) => CircularProgressIndicator(),

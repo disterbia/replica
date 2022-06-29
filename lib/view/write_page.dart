@@ -137,7 +137,7 @@ class WritePage extends StatelessWidget {
                         detailImageUrl: list,
                         size: size,
                         category: category
-                      )); // 3초 (로딩 그림)
+                      ),category!); // 3초 (로딩 그림)
                       await Get.off(() => TempPage());
                     }
                   },

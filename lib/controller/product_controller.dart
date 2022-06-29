@@ -84,10 +84,11 @@ class ProductController extends GetxController with StateMixin {
     }
   }
 
-  Future<void> save(Product newProduct) async {
+  Future<void> save(Product newProduct,String category) async {
     change(null,status: RxStatus.loading());
     Product product = await _productRepository.save(newProduct);
-    this.products.insert(0, product);
+    findByCategory(category);
+    //products.insert(0, product); //이러면 새로고침해야 제대로 보임
 
     change(null, status: RxStatus.success());
   }

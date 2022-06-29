@@ -16,8 +16,8 @@ import '../components/custom_elevated_button.dart';
 import 'order_page.dart';
 
 class DetailPage extends StatelessWidget {
-  ProductController p = Get.find();
-  UserController u = Get.find();
+  ProductController p = Get.put(ProductController());
+  UserController u = Get.put(UserController());
   bool isDesktop = GetPlatform.isDesktop;
   RxString _sizeValue="".obs;
 

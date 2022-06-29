@@ -42,7 +42,8 @@ dependencies:
   flutter_speed_dial: ^5.0.0+1
   carousel_slider: ^4.0.0
   intl: ^0.17.0
-  get_storage:
+  get_storage: ^2.0.3
+  fluro: ^2.0.3
 
 dev_dependencies:
   flutter_test:

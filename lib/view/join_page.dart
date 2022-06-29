@@ -72,7 +72,7 @@ class JoinPage extends GetView<UserController> {
           _phoneNumber.text.trim());
 
       if (result) {
-        Get.off(() => HomePage());
+        Get.off(() => TempPage());
       } else {
         Get.snackbar("회원가입 시도", "회원가입 실패");
       }
