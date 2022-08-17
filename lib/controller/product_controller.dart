@@ -13,7 +13,7 @@ class ProductController extends GetxController with StateMixin {
   final sneakers = <Product>[].obs;
   final etc = <Product>[].obs;
   final product = Product().obs;
-  bool isLoading = true;
+  RxBool isLoading = true.obs;
 
   @override
   void onInit() {
@@ -29,12 +29,9 @@ class ProductController extends GetxController with StateMixin {
   }
 
   Future<void> findById(String id) async {
-    change(null,status: RxStatus.loading());
-
     Product product = await _productRepository.findById(id);
     this.product.value = product;
-
-    change(null, status: RxStatus.success());
+    isLoading.value=false;
   }
 
   Future<void> findByCategory(String category) async {

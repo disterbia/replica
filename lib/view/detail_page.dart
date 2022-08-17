@@ -19,130 +19,153 @@ class DetailPage extends StatelessWidget {
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDesktop = GetPlatform.isDesktop;
-  RxString _sizeValue="".obs;
+  final sizeValue = "".obs;
+  final param = Get.rootDelegate.parameters["index"]!;
 
   @override
   Widget build(BuildContext context) {
-    _sizeValue.value=p.product.value.size!.first;
+    p.findById(param);
     return Obx(
-      () => SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Scaffold(
-            floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-            floatingActionButton: CustomFloating(u: u),
-            body: Center(
-              child: SingleChildScrollView(scrollDirection: Axis.horizontal,
-                child: SingleChildScrollView(child: Column(
-                    children: [
-                      GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                      child: Container(
-                        height: 100,
-                        child: Image.asset("assets/logo.png"),
-                      )
-                ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
-                          ? Row(
-                        children: [
-                          TextButton(
-                              onPressed: () {
-                                Get.to(() => UpdatePage());
-                              },
-                              child: Text("수정")),
-                          TextButton(
-                              onPressed: () async {
-                                await p.delete(p.product.value.id!);
-                                 Get.off(() => TempPage());
-                              },
-                              child: Text("삭제")),
-                        ],
-                      )
-                          : Container(),
-                      isDesktop
-                          ?  Row(children:order(isDesktop) ,
-                      )
+        () {
+          if (p.isLoading.value) {
+            return Center(
+                child: Container(
+                    height: 50, width: 50, child: CircularProgressIndicator()));
+          } else {
+            sizeValue.value = p.product.value.size!.first;
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Scaffold(
+                  floatingActionButtonLocation:
+                      FloatingActionButtonLocation.startTop,
+                  floatingActionButton: CustomFloating(u: u),
+                  body: Center(
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: SingleChildScrollView(
+                        child: Column(children: [
+                          GestureDetector(
+                              onTap: () => Get.to(() => TempPage()),
+                              child: Container(
+                                height: 100,
+                                child: Image.asset("assets/logo.png"),
+                              )),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          u.principal.value.uid ==
+                                  "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                              ? Row(
+                                  children: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Get.to(() => UpdatePage());
+                                        },
+                                        child: Text("수정")),
+                                    TextButton(
+                                        onPressed: () async {
+                                          await p.delete(p.product.value.id!);
+                                          Get.off(() => TempPage());
+                                        },
+                                        child: Text("삭제")),
+                                  ],
+                                )
+                              : Container(),
+                          isDesktop
+                              ? Row(children: order(isDesktop))
+                              // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
+                              //       return Row(children:order(isDesktop));
+                              // })
 
-                          : Column(
-                        children: order(isDesktop),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(
-                          width: 1000,
-                          height: 30,
-                          color: Colors.blueGrey.shade50,
-                          child: Center(
-                            child: Text(
-                              "상품상세보기",
-                              style: TextStyle(
-                                fontSize: 20,
-                                shadows: [
-                                  Shadow(
-                                    blurRadius: 10.0,
-                                    color: Colors.orange,
-                                    offset: Offset(5.0, 5.0),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Container(width: 1400,
-                        child: ListView.separated(
-                          itemCount: p.product.value.detailImageUrl!.length,
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemBuilder: (context, index) {
-                            return Center(
-                              child: CachedNetworkImage(
-                                height: isDesktop?500:Get.height/2,
-                                width: isDesktop?500:Get.height/2,
-                                imageUrl: p.product.value.detailImageUrl![index],
-                                imageBuilder: (context, imageProvider) => Container(
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(fit: BoxFit.none,
-                                      image: imageProvider,
-                                      // colorFilter:
-                                      // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                    ),
+                              : Column(children: order(isDesktop)),
+                          // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
+                          //   return Column(children:order(isDesktop));
+                          // }),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                              width: 1000,
+                              height: 30,
+                              color: Colors.blueGrey.shade50,
+                              child: Center(
+                                child: Text(
+                                  "상품상세보기",
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    shadows: [
+                                      Shadow(
+                                        blurRadius: 10.0,
+                                        color: Colors.orange,
+                                        offset: Offset(5.0, 5.0),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
-                                errorWidget: (context, url, error) {
-                                  print(error);
-                                  return Icon(Icons.error);
-                                },
-                              ),
-                            );
-                          },
-                          separatorBuilder: (context, index) {
-                            return Divider();
-                          },
-                        ),
-                      )
-                    ]
-                ),
+                              )),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Container(
+                            width: 1400,
+                            child: ListView.separated(
+                              itemCount: p.product.value.detailImageUrl!.length,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Center(
+                                  child: CachedNetworkImage(
+                                    height: isDesktop ? 500 : Get.height / 2,
+                                    width: isDesktop ? 500 : Get.height / 2,
+                                    imageUrl:
+                                        p.product.value.detailImageUrl![index],
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.none,
+                                          image: imageProvider,
+                                          // colorFilter:
+                                          // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
+                                        ),
+                                      ),
+                                    ),
+                                    placeholder: (context, url) => Center(
+                                        child: Container(
+                                            height: 50,
+                                            width: 50,
+                                            child:
+                                                CircularProgressIndicator())),
+                                    errorWidget: (context, url, error) {
+                                      print(error);
+                                      return Icon(Icons.error);
+                                    },
+                                  ),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return Divider();
+                              },
+                            ),
+                          )
+                        ]),
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
-        ),
-      ),
-    );
+            );
+          }
+        },
+      );
   }
 
   List<Widget> order(bool desktop) {
     List<Widget> list = [
       CachedNetworkImage(
-        height: 500 ,
-        width: 500 ,
+        height: 500,
+        width: 500,
         imageUrl: p.product.value.mainImageUrl!,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
@@ -153,7 +176,9 @@ class DetailPage extends StatelessWidget {
             ),
           ),
         ),
-        placeholder: (context, url) => CircularProgressIndicator(),
+        placeholder: (context, url) => Center(
+            child: Container(
+                height: 50, width: 50, child: CircularProgressIndicator())),
         errorWidget: (context, url, error) {
           print(error);
           return Icon(Icons.error);
@@ -173,27 +198,36 @@ class DetailPage extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-              p.product.value.size!.first!=""?Row(mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("사이즈: "),
-                DropdownButton<String>(
-                  focusColor:Colors.white,
-                  value: _sizeValue.value,
-                  //elevation: 5,
-                  style: TextStyle(color: Colors.white),
-                  iconEnabledColor:Colors.black,
-                  items: p.product.value.size!.map<DropdownMenuItem<String>>((dynamic value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value,style:TextStyle(color:Colors.black),),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    _sizeValue.value=value!;
-                  },
-                ),
-              ],
-            ):Container(),
+            p.product.value.size!.first != ""
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("사이즈: "),
+                      Obx(
+                            ()=> DropdownButton<String>(
+                          focusColor: Colors.white,
+                          value: sizeValue.value,
+                          //elevation: 5,
+                          style: TextStyle(color: Colors.white),
+                          iconEnabledColor: Colors.black,
+                          items: p.product.value.size!
+                              .map<DropdownMenuItem<String>>((dynamic value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(color: Colors.black),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (String? value) {
+                            sizeValue.value = value!;
+                          },
+                        ),
+                      ),
+                    ],
+                  )
+                : Container(),
             Text(
                 "판매가격 :  ${NumberFormat("###,###,### 원").format(p.product.value.price!)}"),
             SizedBox(
@@ -208,7 +242,8 @@ class DetailPage extends StatelessWidget {
               ),
               child: Text("주문하기"),
               onPressed: () {
-                Get.to(() => u.principal.value.uid==null?LoginPage():OrderPage());
+                Get.to(() =>
+                    u.principal.value.uid == null ? LoginPage() : OrderPage());
               },
             ),
           ],
@@ -216,7 +251,12 @@ class DetailPage extends StatelessWidget {
       )
     ];
     //if(desktop) list.insert(0,SizedBox(width: 100,));
-    if(desktop) list.insert(1,SizedBox(width: 100,));
+    if (desktop)
+      list.insert(
+          1,
+          SizedBox(
+            width: 100,
+          ));
     return list;
   }
 }

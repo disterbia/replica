@@ -18,7 +18,7 @@ import 'my_page.dart';
 
 class HomePage extends GetView<ProductController> {
   final _search = TextEditingController();
-  final param = int.parse(Get.rootDelegate.parameters["index"]!);
+  var param = int.parse(Get.rootDelegate.parameters["index"]!);
   //final param = int.parse(Get.parameters["index"]!);
   //final args = Get.rootDelegate.currentConfiguration?.currentPage?.arguments as Map<String,dynamic>;
   // final _selections = [];
@@ -28,7 +28,6 @@ class HomePage extends GetView<ProductController> {
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDeskTop = GetPlatform.isDesktop;
-  String nowCategory2 = "";
   final List<String> categoris = [
     "남성의류",
     "여성의류",
@@ -43,7 +42,7 @@ class HomePage extends GetView<ProductController> {
     final List<bool> _selections = List.generate(6, (index) => false);
     _selections[param] = true;
     String nowCategory = categoris[param];
-    p.changeCategory(nowCategory);
+    Future.delayed(Duration.zero,(){p.changeCategory(nowCategory);});
 
 
     // final el = window.document.getElementById('__ff-recaptcha-container');
@@ -69,7 +68,7 @@ class HomePage extends GetView<ProductController> {
             p.changeCategory(categoris[i]);
             _search.clear();
             // WidgetsBinding.instance!.addPersistentFrameCallback((_) {
-            //Get.rootDelegate.toNamed("/home/$i");
+            Get.rootDelegate.toNamed("/home/$i");
             // });
 
           },
@@ -167,8 +166,9 @@ class HomePage extends GetView<ProductController> {
                                               ),
                                             ),
                                             onTap: () async {
-                                              await p.findById(p.products[index].id!);
-                                              Get.rootDelegate.toNamed("/detail/$index");
+                                              String param=p.products[index].id!;
+                                              //await p.findById(param);
+                                              Get.rootDelegate.toNamed("/detail/$param");
                                               // Get.to(() => DetailPage(),
                                               //     transition: Transition.size);
                                             },

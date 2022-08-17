@@ -10,6 +10,7 @@ import 'package:panda/router/MyRoutes.dart';
 import 'package:panda/util/custom_scroll.dart';
 import 'package:panda/view/home_page.dart';
 import 'package:panda/view/temp_page.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 void main() async {
   await Firebase.initializeApp(
@@ -19,6 +20,7 @@ void main() async {
           messagingSenderId: "854934436212",
           projectId: "replica-e115a"));
   await GetStorage.init();
+  setPathUrlStrategy(); //샵없애기
   //MyFRouter.setupRouter();
   Get.put(ProductController());
   runApp(GetMaterialApp.router(scrollBehavior: CustomScroll(),

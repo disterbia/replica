@@ -15,15 +15,18 @@ abstract class AppPages {
     GetPage(
       name: Routes.TEMP,
       page: () => TempPage(),
+        transition: Transition.fadeIn
     ),
     GetPage(
       name: Routes.HOME,
       page: () => HomePage(),
+        transition: Transition.fadeIn
 
     ),
     GetPage(
       name: Routes.DETAIL,
       page: () => DetailPage(),
+        transition: Transition.fadeIn
 
     ),
 
