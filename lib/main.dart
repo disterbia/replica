@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/product_controller.dart';
+import 'package:panda/controller/user_controller.dart';
 import 'package:panda/router/AppRouterDelegate.dart';
 import 'package:panda/router/MyFRouter.dart';
 import 'package:panda/router/MyRoutes.dart';
@@ -23,14 +24,11 @@ void main() async {
   setPathUrlStrategy(); //샵없애기
   //MyFRouter.setupRouter();
   Get.put(ProductController());
+  Get.put(UserController());
   runApp(GetMaterialApp.router(scrollBehavior: CustomScroll(),
     debugShowCheckedModeBanner: false,
-    // onGenerateRoute: FluroRouter.appRouter.generator,
-    //routes: {"/temp":(context)=>TempPage(),"/home":(context)=>HomePage(data: {"selection":[true,false,false,false,false,false],"index":0},)},
-    //home: TempPage(),
     getPages: AppPages.pages,
     routerDelegate: AppRouterDelegate(),
-
   ));
 }
 

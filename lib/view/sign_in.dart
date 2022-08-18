@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/user_controller.dart';
 
 import 'package:panda/util/validator_util.dart';
@@ -7,7 +8,6 @@ import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/view/temp_page.dart';
 import 'package:get/get.dart';
 
-import 'join_page.dart';
 
 class LoginPage extends GetView<UserController> {
   final _formKey = GlobalKey<FormState>();
@@ -26,11 +26,7 @@ class LoginPage extends GetView<UserController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                      child: Container(height: 100,
-                        child: Image.asset("assets/logo.png"),
-                      ),
-                    ),
+                    CustomLogo(),
                     Container(
                       alignment: Alignment.center,
                       height: 200,
@@ -58,9 +54,11 @@ class LoginPage extends GetView<UserController> {
       bool result =
       await u.login(_username.text.trim(), _password.text.trim());
       if (result) {
-        Get.off(() => TempPage());
+        Get.rootDelegate.toNamed("/");
+        //Get.rootDelegate.offAndToNamed("/",); // Error: Unexpected null value.
       } else {
-        Get.snackbar("로그인 시도", "로그인 실패");
+        Get.dialog(Container());
+        //Get.snackbar("login fail", "check id or password"); // Error: Unexpected null value.
       }
     }
   }
@@ -85,7 +83,7 @@ class LoginPage extends GetView<UserController> {
           ),
           TextButton(
             onPressed: () {
-              Get.to(()=>JoinPage());
+              Get.rootDelegate.toNamed("/join");
             },
             child: Text("아직 회원가입이 안되어 있나요?"),
           ),

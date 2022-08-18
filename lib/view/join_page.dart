@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/user_controller.dart';
 
 import 'package:panda/util/validator_util.dart';
@@ -31,11 +32,7 @@ class JoinPage extends GetView<UserController> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                      child: Container(height: 100,
-                        child: Image.asset("assets/logo.png"),
-                      ),
-                    ),
+                    CustomLogo(),
                     Container(
                       alignment: Alignment.center,
                       height: 200,
@@ -164,7 +161,7 @@ class JoinPage extends GetView<UserController> {
           ),
           TextButton(
             onPressed: () {
-              Get.to(LoginPage());
+              Get.rootDelegate.toNamed("/login");
             },
             child: Text("로그인 페이지로 이동"),
           ),

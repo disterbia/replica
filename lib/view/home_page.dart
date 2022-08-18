@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
@@ -79,9 +80,9 @@ class HomePage extends GetView<ProductController> {
     }
     return controller.obx(
       (state) => Obx(
-        ()=> Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SafeArea(
+        ()=> SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Scaffold(
               floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
               floatingActionButton: CustomFloating(u: u),
@@ -90,11 +91,7 @@ class HomePage extends GetView<ProductController> {
                   child: SingleChildScrollView(
                     child: Column(
                                     children: [
-                        GestureDetector(onTap:()=> Get.to(()=>TempPage()),
-                          child: Container(height: 100,
-                            child: Image.asset("assets/logo.png"),
-                          ),
-                        ),
+                        CustomLogo(),
                         SizedBox(
                           height: 10,
                         ),

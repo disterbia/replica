@@ -4,6 +4,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/view/home_page.dart';
@@ -45,12 +46,7 @@ class DetailPage extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: SingleChildScrollView(
                         child: Column(children: [
-                          GestureDetector(
-                              onTap: () => Get.to(() => TempPage()),
-                              child: Container(
-                                height: 100,
-                                child: Image.asset("assets/logo.png"),
-                              )),
+                          CustomLogo(),
                           SizedBox(
                             height: 10,
                           ),
@@ -60,13 +56,13 @@ class DetailPage extends StatelessWidget {
                                   children: [
                                     TextButton(
                                         onPressed: () {
-                                          Get.to(() => UpdatePage());
+                                          Get.rootDelegate.toNamed("/update");
                                         },
                                         child: Text("수정")),
                                     TextButton(
                                         onPressed: () async {
                                           await p.delete(p.product.value.id!);
-                                          Get.off(() => TempPage());
+                                          Get.rootDelegate.toNamed("/");
                                         },
                                         child: Text("삭제")),
                                   ],
@@ -242,8 +238,7 @@ class DetailPage extends StatelessWidget {
               ),
               child: Text("주문하기"),
               onPressed: () {
-                Get.to(() =>
-                    u.principal.value.uid == null ? LoginPage() : OrderPage());
+                Get.rootDelegate.toNamed(u.principal.value.uid == null ? "/login" : "/detail/$param/order");
               },
             ),
           ],

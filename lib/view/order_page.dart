@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_elevated_button.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/product_controller.dart';
@@ -36,13 +37,7 @@ class OrderPage extends GetView<OrderController> {
                       child: SingleChildScrollView(
                         child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: () => Get.to(() => TempPage()),
-                              child: Container(
-                                height: 100,
-                                child: Image.asset("assets/logo.png"),
-                              ),
-                            ),
+                            CustomLogo(),
                             SizedBox(
                               height: 50,
                             ),

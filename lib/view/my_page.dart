@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/order.dart';
@@ -23,13 +24,7 @@ class MyPage extends GetView<UserController> {
                       scrollDirection: Axis.horizontal,
                       child: SingleChildScrollView(
                         child: Column(children: [
-                          GestureDetector(
-                            onTap: () => Get.to(() => TempPage()),
-                            child: Container(
-                              height: Get.height / 10,
-                              child: Image.asset("assets/logo.png"),
-                            ),
-                          ),
+                          CustomLogo(),
                           SizedBox(height: 50),
                           Text("주문내역"),
                           SizedBox(height: 50),

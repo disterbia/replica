@@ -4,6 +4,7 @@ import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/temp_controller.dart';
 import 'package:panda/router/MyFRouter.dart';
@@ -50,13 +51,11 @@ class TempPage extends GetView<TempContrlloer> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: Image.asset("assets/logo.png"),
-                            ),
+                            CustomLogo(),
                             u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                                 ? TextButton(
                                     onPressed: () {
-                                      Get.to(() => TempUpdate());
+                                      Get.rootDelegate.toNamed("/");
                                     },
                                     child: Text("편집"))
                                 : Container()

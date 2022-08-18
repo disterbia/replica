@@ -18,7 +18,7 @@ class CustomFloating extends StatelessWidget {
 
   void logout(){
     u.logout();
-    Get.to(()=>LoginPage());
+    Get.rootDelegate.toNamed("/login");
   }
 
   @override
@@ -38,7 +38,7 @@ class CustomFloating extends StatelessWidget {
             label: "상품등록",
             backgroundColor: Colors.blue,
             onTap: () {
-              Get.to(() => WritePage());
+              Get.rootDelegate.toNamed("/write");
             })
             : SpeedDialChild(),
         SpeedDialChild(
@@ -46,13 +46,13 @@ class CustomFloating extends StatelessWidget {
             label: u.principal.value.uid != null ? "로그아웃" : "로그인",
             backgroundColor: Colors.blue,
             onTap: () {
-              u.principal.value.uid != null ? logout(): Get.to(() => LoginPage());
+              u.principal.value.uid != null ? logout(): Get.rootDelegate.toNamed("/login");
             }),
         SpeedDialChild(
             child: Icon(Icons.mail),
             label: u.principal.value.uid != null? "마이페이지" : "회원가입",
             onTap: () {
-              Get.to(() => u.principal.value.uid != null ? MyPage() : JoinPage());
+              Get.rootDelegate.toNamed(u.principal.value.uid != null ? '/mypage' : '/join');
             }),
       ],
     );
