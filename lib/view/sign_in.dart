@@ -54,8 +54,7 @@ class LoginPage extends GetView<UserController> {
       bool result =
       await u.login(_username.text.trim(), _password.text.trim());
       if (result) {
-        Get.rootDelegate.toNamed("/");
-        //Get.rootDelegate.offAndToNamed("/",); // Error: Unexpected null value.
+        Get.rootDelegate.offNamed("/",); // Error: Unexpected null value.
       } else {
         Get.dialog(Container());
         //Get.snackbar("login fail", "check id or password"); // Error: Unexpected null value.

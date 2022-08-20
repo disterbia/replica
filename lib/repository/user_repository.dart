@@ -84,7 +84,7 @@ class UserRepositoy {
   Future<bool> checkCode(String code) async {
     try {
       UserCredential? userCredential = await confirmationResult?.confirm(code);
-      print(userCredential);
+      //print(userCredential);
 
       return userCredential == null ? false : true;
     } catch (e) {

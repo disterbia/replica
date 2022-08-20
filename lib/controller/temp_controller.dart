@@ -22,7 +22,7 @@ class TempContrlloer extends GetxController with StateMixin{
     List<Temp> temps = await _tempRepository.findAll();
 
     if(GetStorage().hasData("uid")){
-      print(GetStorage().read("uid"));
+      //ßprint(GetStorage().read("uid"));
       await u.findById(GetStorage().read("uid"));
     }
 

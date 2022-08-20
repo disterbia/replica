@@ -35,7 +35,6 @@ class TempPage extends GetView<TempContrlloer> {
 
   @override
   Widget build(BuildContext context) {
-
     return controller.obx(
           (state)
            => SafeArea(

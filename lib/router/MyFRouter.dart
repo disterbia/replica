@@ -16,7 +16,7 @@ class MyFRouter{
   static void setupRouter(){
     router.define("/temp", handler: tempPage,transitionType: TransitionType.fadeIn);
     router.define("/home", handler: homePage,transitionType: TransitionType.fadeIn);
-    print("ddd");
+
 
   }
 }
