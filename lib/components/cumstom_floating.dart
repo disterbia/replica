@@ -18,7 +18,7 @@ class CustomFloating extends StatelessWidget {
 
   void logout(){
     u.logout();
-    Get.rootDelegate.toNamed("/login");
+    //Get.rootDelegate.toNamed("/login");
   }
 
   @override

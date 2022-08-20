@@ -1,13 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
-import 'package:panda/router/AppRouterDelegate.dart';
-import 'package:panda/router/MyFRouter.dart';
-import 'package:panda/router/MyRoutes.dart';
+import 'package:panda/router/appRouterDelegate.dart';
+import 'package:panda/router/myGoRouter.dart';
+import 'package:panda/router/myRoutes.dart';
 import 'package:panda/util/custom_scroll.dart';
 import 'package:panda/view/home_page.dart';
 import 'package:panda/view/temp_page.dart';
@@ -22,13 +21,15 @@ void main() async {
           projectId: "replica-e115a"));
   await GetStorage.init();
   setPathUrlStrategy(); //샵없애기
-  //MyFRouter.setupRouter();
   Get.put(ProductController());
   Get.put(UserController());
   runApp(GetMaterialApp.router(scrollBehavior: CustomScroll(),
     debugShowCheckedModeBanner: false,
-    getPages: AppPages.pages,
-    routerDelegate: AppRouterDelegate(),
+    routeInformationParser: MyPages.router.routeInformationParser,
+    routerDelegate: MyPages.router.routerDelegate,
+    routeInformationProvider: MyPages.router.routeInformationProvider,
+    // getPages: AppPages.pages,
+    // routerDelegate: AppRouterDelegate(),
   ));
 }
 

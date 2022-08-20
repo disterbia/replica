@@ -1,31 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_logo.dart';
-import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
-import 'package:panda/view/sign_in.dart';
-import 'package:panda/view/temp_page.dart';
-import 'package:panda/view/write_page.dart';
 
 import '../components/cumstom_floating.dart';
-import '../util/validator_util.dart';
-import 'detail_page.dart';
-import 'join_page.dart';
-import 'my_page.dart';
 
 class HomePage extends GetView<ProductController> {
+  HomePage({
+    this.param
+});
   final _search = TextEditingController();
-  var param = int.parse(Get.rootDelegate.parameters["index"]!);
-  //final param = int.parse(Get.parameters["index"]!);
-  //final args = Get.rootDelegate.currentConfiguration?.currentPage?.arguments as Map<String,dynamic>;
-  // final _selections = [];
-  // final _index = 1;
-  // final _selections = Get.arguments['selection'];
-  // final _index = Get.arguments["index"];
+  //var param = int.parse(Get.rootDelegate.parameters["index"]!);
+  String? param;
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDeskTop = GetPlatform.isDesktop;
@@ -38,11 +27,12 @@ class HomePage extends GetView<ProductController> {
     "가방/지갑/악세사리"
   ];
 
+
   @override
   Widget build(BuildContext context) {
     final List<bool> _selections = List.generate(6, (index) => false);
-    _selections[param] = true;
-    String nowCategory = categoris[param];
+    _selections[int.parse(param!)] = true;
+    String nowCategory = categoris[int.parse(param!)];
     Future.delayed(Duration.zero,(){p.changeCategory(nowCategory);});
 
 

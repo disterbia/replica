@@ -1,14 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/temp_controller.dart';
-import 'package:panda/router/MyFRouter.dart';
-import 'package:panda/router/MyRoutes.dart';
+import 'package:panda/router/myGoRouter.dart';
+import 'package:panda/router/myRoutes.dart';
 import 'package:panda/view/home_page.dart';
 import 'package:panda/view/temp_update.dart';
 
@@ -138,13 +138,13 @@ class TempPage extends GetView<TempContrlloer> {
                       Expanded(
                           flex: 2,
                           child: isDeskTop
-                              ? Row(children: createButton(0, 6))
+                              ? Row(children: createButton(0, 6,context))
                               : Column(
                                   children: [
                                     Expanded(
-                                        child: Row(children: createButton(0, 3))),
+                                        child: Row(children: createButton(0, 3,context))),
                                     Expanded(
-                                        child: Row(children: createButton(3, 6)))
+                                        child: Row(children: createButton(3, 6,context)))
                                   ],
                                 ))
                     ],
@@ -158,7 +158,7 @@ class TempPage extends GetView<TempContrlloer> {
 
   }
 
-  List<Widget> createButton(int a, int b) {
+  List<Widget> createButton(int a, int b,BuildContext context) {
     List<Widget> list = [];
     for (int i = a; i < categoris.length; i++) {
       if (i == b) break;
@@ -170,15 +170,8 @@ class TempPage extends GetView<TempContrlloer> {
               shadowColor: Colors.transparent,
               onPrimary: Colors.black),
           onPressed: () {
-            // final List<bool> _selections = List.generate(6, (index) => false);
-            // _selections[i] = true;
-            //p.changeCategory(categoris[i]);
-            // MyFRouter.router.navigateTo(mContext, "/home",routeSettings: RouteSettings(arguments:
-            // {"selection": _selections, "index": i}));
-            Get.rootDelegate.toNamed("/home/$i",
-              //parameters: {"index":"$i"},
-                //arguments: {"selection": _selections, "index": i}
-            );
+            context.go("/home/$i",);
+            //Get.rootDelegate.toNamed("/home/$i");
           },
           child: Text(categoris[i], style: TextStyle(color: Colors.black)),
         ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:panda/router/MyRoutes.dart';
+import 'package:panda/router/myRoutes.dart';
 
 class AppRouterDelegate extends GetDelegate {
   @override
