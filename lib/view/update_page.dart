@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/model/product.dart';
 import 'package:panda/view/detail_page.dart';
@@ -17,6 +18,7 @@ class UpdatePage extends StatelessWidget {
   final _price = TextEditingController();
   final _mainImageUrl = TextEditingController();
   final _size = TextEditingController();
+  final ProductController p = Get.put(ProductController());
   List<TextEditingController> _detailControllerList = [];
   final textFormList = <Widget>[].obs;
   final List<bool> _selections = List.generate(6, (index) => false).obs;
@@ -42,8 +44,6 @@ class UpdatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-     ProductController p =Get.find();
 
      _name.text = p.product.value.name!;
      _comment.text = p.product.value.comment!;
@@ -165,7 +165,7 @@ class UpdatePage extends StatelessWidget {
                           size: size,
                           category: category
                       )); // 3초 (로딩 그림)
-                      await Get.off(() => TempPage());
+                       context.go("/");
                     }
                   },
                 ),

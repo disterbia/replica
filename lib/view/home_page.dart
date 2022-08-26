@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
@@ -59,7 +60,7 @@ class HomePage extends GetView<ProductController> {
             p.changeCategory(categoris[i]);
             _search.clear();
             // WidgetsBinding.instance!.addPersistentFrameCallback((_) {
-            Get.rootDelegate.toNamed("/home/$i");
+            context.go("/home/$i");
             // });
 
           },
@@ -155,7 +156,7 @@ class HomePage extends GetView<ProductController> {
                                             onTap: () async {
                                               String param=p.products[index].id!;
                                               //await p.findById(param);
-                                              Get.rootDelegate.toNamed("/detail/$param");
+                                              context.go("/detail/$param");
                                               // Get.to(() => DetailPage(),
                                               //     transition: Transition.size);
                                             },

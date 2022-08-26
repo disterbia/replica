@@ -1,46 +1,68 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/order.dart';
 import 'package:panda/model/user.dart';
-import 'package:panda/view/temp_page.dart';
 
 class MyPage extends GetView<UserController> {
   OrderController o = Get.put(OrderController());
-  UserController u = Get.find();
+  UserController u = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
-    return controller.obx(
+    String? uid = GetStorage().read("uid");
+    if(uid==null){
+      context.go("/");
+      return Container();
+      }else {
+      u.findById(uid);
+        if(GetStorage().read("uid")=="chRfCQk6Z0S857O88T2A6aAKOVg2") {
+          o.findAll();
+        } else {
+          o.findByUid(GetStorage().read("uid"));
+        }
+      return controller.obx(
         (state) => Obx(
-              () => Scaffold(
-                body: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SingleChildScrollView(
-                        child: Column(children: [
-                          CustomLogo(),
-                          SizedBox(height: 50),
-                          Text("주문내역"),
-                          SizedBox(height: 50),
-                          Text("입금계좌: 신한은행 123-456-7890"),
-                          SizedBox(height: 50),
-                          DataTable(columns: getColumns(), rows: getRows()),
-                        ]),
+              ()
+              {if (u.isLoading.value || o.isLoding.value) {
+                return Center(
+                    child: Container(
+                        height: 50, width: 50, child: CircularProgressIndicator()));
+              }
+              else {
+                return Scaffold(
+                    body: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Center(
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: SingleChildScrollView(
+                            child: Column(children: [
+                              CustomLogo(),
+                              SizedBox(height: 50),
+                              Text("주문내역"),
+                              SizedBox(height: 50),
+                              Text("입금계좌: 신한은행 123-456-7890"),
+                              SizedBox(height: 50),
+                              DataTable(columns: getColumns(), rows: getRows()),
+                            ]),
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  );
+              }
+                },
             ),
         onLoading: Center(
             child: Container(
                 height: 50, width: 50, child: CircularProgressIndicator())));
+    }
   }
 
   List<DataColumn> getColumns() {

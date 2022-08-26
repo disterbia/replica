@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/user_controller.dart';
 
 import 'package:panda/util/validator_util.dart';
 import 'package:panda/components/custom_elevated_button.dart';
 import 'package:panda/components/custom_text_form_field.dart';
-import 'package:panda/view/temp_page.dart';
 import 'package:get/get.dart';
 
 
@@ -14,9 +14,10 @@ class LoginPage extends GetView<UserController> {
   final UserController u = Get.put(UserController());
   final _username = TextEditingController();
   final _password = TextEditingController();
-
+  BuildContext? _context;
   @override
   Widget build(BuildContext context) {
+    _context=context;
     return controller.obx(
       (state)=> Scaffold(
         body: Padding(
@@ -54,9 +55,15 @@ class LoginPage extends GetView<UserController> {
       bool result =
       await u.login(_username.text.trim(), _password.text.trim());
       if (result) {
-        Get.rootDelegate.offNamed("/",); // Error: Unexpected null value.
+        _context!.go("/");// Error: Unexpected null value.
       } else {
-        Get.dialog(Container());
+        showDialog(context: _context!, builder: (context)=> AlertDialog(title:Text("로그인 실패"),
+            content: Text("이메일 또는 비밀번호를 확인해주세요"),actions: [
+              TextButton(
+    child: Text("OK"),
+    onPressed: () {return Navigator.of(context).pop(); },
+  )
+          ],));
         //Get.snackbar("login fail", "check id or password"); // Error: Unexpected null value.
       }
     }
@@ -82,7 +89,7 @@ class LoginPage extends GetView<UserController> {
           ),
           TextButton(
             onPressed: () {
-              Get.rootDelegate.toNamed("/join");
+              AlertDialog();
             },
             child: Text("아직 회원가입이 안되어 있나요?"),
           ),

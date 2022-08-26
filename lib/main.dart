@@ -4,12 +4,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
-import 'package:panda/router/appRouterDelegate.dart';
 import 'package:panda/router/myGoRouter.dart';
-import 'package:panda/router/myRoutes.dart';
 import 'package:panda/util/custom_scroll.dart';
-import 'package:panda/view/home_page.dart';
-import 'package:panda/view/temp_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 void main() async {

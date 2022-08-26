@@ -8,7 +8,7 @@ class UserController extends GetxController with StateMixin {
   final UserRepositoy _userRepository = UserRepositoy();
   final principal = User().obs;
   final OrderController o = Get.put(OrderController());
-
+  RxBool isLoading = true.obs; //order페이지를 위해서
   @override
   void onInit() {
     super.onInit();
@@ -71,11 +71,10 @@ class UserController extends GetxController with StateMixin {
 
   Future<void> findById(String id) async {
     change(null,status: RxStatus.loading());
-
     User user = await _userRepository.findById(id);
     this.principal.value = user;
 
-
+    isLoading.value=false;
     change(null, status: RxStatus.success());
   }
 

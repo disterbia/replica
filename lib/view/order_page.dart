@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_elevated_button.dart';
 import 'package:panda/components/custom_logo.dart';
@@ -7,28 +10,46 @@ import 'package:panda/components/custom_text_form_field.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
-import 'package:panda/view/temp_page.dart';
 
 import '../model/order.dart';
 import '../util/validator_util.dart';
 import 'my_page.dart';
 
-class OrderPage extends GetView<OrderController> {
+class OrderPage extends GetView<ProductController> {
+  OrderPage({this.param});
   final _formKey = GlobalKey<FormState>();
   final _address = TextEditingController();
   final _payName = TextEditingController();
   final _memo = TextEditingController();
-  ProductController p = Get.find();
+  ProductController p = Get.put(ProductController());
   OrderController o = Get.put(OrderController());
-  UserController u = Get.find();
+  UserController u = Get.put(UserController());
+  RxBool pressed = false.obs;
+  RxInt nowPrice =0.obs;
+  RxInt nowPoint=0.obs;
+  RxInt realPoint=0.obs; // 클릭할떄 값을 바꾸기위해
+  String? param;
+  bool isFisrtClick=true;
 
   @override
   Widget build(BuildContext context) {
-    RxInt nowPrice = p.product.value.price!.obs;
-    RxBool pressed = false.obs;
+    p.findById(param!);
+    u.findById(GetStorage().read("uid"));
     return controller.obx(
         (state) => Obx(
-              () => Scaffold(
+              (){
+                if (p.isLoading.value||u.isLoading.value) {
+                  return Center(
+                      child: Container(
+                          height: 50, width: 50, child: CircularProgressIndicator()));
+                }
+                else {
+                  if(isFisrtClick) {
+                    nowPrice.value = p.product.value.price!;
+                    nowPoint.value=u.principal.value.point!;
+                    realPoint.value=u.principal.value.point!;
+                  }
+                  return Scaffold(
                 body: Form(
                   key: _formKey,
                   child: Center(
@@ -57,10 +78,13 @@ class OrderPage extends GetView<OrderController> {
                             Row(
                               children: [
                                 Text(
-                                    "보유 포인트: ${NumberFormat("###,###,### 원").format(u.principal.value.point)}"),
+                                    "보유 포인트: ${NumberFormat("###,###,### 원").format(nowPoint.value)}"),
                                 TextButton(
                                   onPressed: () {
+                                    print(FirebaseAuth.instance.currentUser); //새로고침후 몇초간 null 이라서 보안규칙위배배
+                                    isFisrtClick=false;
                                     pressed.value = !pressed.value;
+                                    nowPoint.value= !pressed.value ? realPoint.value:0;
                                     nowPrice.value = !pressed.value
                                         ? p.product.value.price!
                                         : p.product.value.price! -
@@ -96,9 +120,10 @@ class OrderPage extends GetView<OrderController> {
                                       state: "입금확인중");
                                   pressed.value ? await u.updatePoint(
                                       u.principal.value.uid!):null;
+
                                   await o.save(order);
                                   await o.findByUid(u.principal.value.uid!);
-                                  Get.off(() => MyPage());
+                                  context.go("/mypage");
                                 })
                           ],
                         ),
@@ -106,10 +131,12 @@ class OrderPage extends GetView<OrderController> {
                     ),
                   ),
                 ),
-              ),
-            ),
-        onLoading: Center(
-            child: Container(
-                height: 50, width: 50, child: CircularProgressIndicator())));
+              );
+                }
+  }),
+        // onLoading: Center(
+        //     child: Container(
+        //         height: 50, width: 50, child: CircularProgressIndicator()))
+    );
   }
 }

@@ -3,30 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/user_controller.dart';
-import 'package:panda/view/home_page.dart';
-import 'package:panda/view/sign_in.dart';
-import 'package:panda/view/temp_page.dart';
-import 'package:panda/view/update_page.dart';
-import 'package:panda/view/write_page.dart';
 import '../components/cumstom_floating.dart';
-import '../components/custom_elevated_button.dart';
-import 'order_page.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends GetView<ProductController>  {
+  DetailPage({this.param});
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDesktop = GetPlatform.isDesktop;
   final sizeValue = "".obs;
-  final param = Get.rootDelegate.parameters["index"]!;
+  String? param;
+  //final param = Get.rootDelegate.parameters["index"]!;
 
   @override
   Widget build(BuildContext context) {
-    p.findById(param);
-    return Obx(
+    p.findById(param!);
+    return controller.obx(
+            (state) =>Obx(
         () {
           if (p.isLoading.value) {
             return Center(
@@ -50,31 +47,33 @@ class DetailPage extends StatelessWidget {
                           SizedBox(
                             height: 10,
                           ),
-                          u.principal.value.uid ==
+                          GetStorage().read("uid") ==
                                   "chRfCQk6Z0S857O88T2A6aAKOVg2"
                               ? Row(
                                   children: [
                                     TextButton(
                                         onPressed: () {
-                                          Get.rootDelegate.toNamed("/update");
+                                          context.go("/update/$param");
+                                          //Get.rootDelegate.toNamed("/update");
                                         },
                                         child: Text("수정")),
                                     TextButton(
                                         onPressed: () async {
                                           await p.delete(p.product.value.id!);
-                                          Get.rootDelegate.toNamed("/");
+                                          context.go("/");
+                                          //Get.rootDelegate.toNamed("/");
                                         },
                                         child: Text("삭제")),
                                   ],
                                 )
                               : Container(),
                           isDesktop
-                              ? Row(children: order(isDesktop))
+                              ? Row(children: order(context,isDesktop))
                               // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
                               //       return Row(children:order(isDesktop));
                               // })
 
-                              : Column(children: order(isDesktop)),
+                              : Column(children: order(context,isDesktop)),
                           // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
                           //   return Column(children:order(isDesktop));
                           // }),
@@ -154,10 +153,10 @@ class DetailPage extends StatelessWidget {
             );
           }
         },
-      );
+      ));
   }
 
-  List<Widget> order(bool desktop) {
+  List<Widget> order(BuildContext context, bool desktop) {
     List<Widget> list = [
       CachedNetworkImage(
         height: 500,
@@ -165,7 +164,7 @@ class DetailPage extends StatelessWidget {
         imageUrl: p.product.value.mainImageUrl!,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(
-            image: DecorationImage(
+            image: DecorationImage(fit: BoxFit.cover,
               image: imageProvider,
               // colorFilter:
               // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
@@ -238,7 +237,7 @@ class DetailPage extends StatelessWidget {
               ),
               child: Text("주문하기"),
               onPressed: () {
-                Get.rootDelegate.toNamed(u.principal.value.uid == null ? "/login" : "/detail/$param/order");
+                context.go(GetStorage().read("uid")== null ? "/login" : "/detail/$param/order");
               },
             ),
           ],

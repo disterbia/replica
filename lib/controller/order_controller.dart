@@ -6,6 +6,7 @@ import '../model/order.dart';
 class OrderController extends GetxController with StateMixin{
   final OrderRepository _orderRepository = OrderRepository();
   final orders = <Order>[].obs;
+  RxBool isLoding = true.obs;
 
 
   Future<void> findAll() async{
@@ -13,7 +14,7 @@ class OrderController extends GetxController with StateMixin{
 
     List<Order> orders = await _orderRepository.findAll();
     this.orders.value=orders;
-
+    isLoding.value=false;
     change(null, status: RxStatus.success());
   }
 
@@ -22,7 +23,7 @@ class OrderController extends GetxController with StateMixin{
 
     List<Order> orders = await _orderRepository.findByUid(id);
     this.orders.value=orders;
-
+    isLoding.value=false;
     change(null, status: RxStatus.success());
   }
 

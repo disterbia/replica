@@ -21,16 +21,22 @@ class UserProvider {
 
   Future<void> updatePoint(String uid) {
     String id;
-    return _store
-        .collection(_collection)
-        .where("uid", isEqualTo: uid)
-        .get()
-        .then((v) async {
-      id = v.docs.first.id;
-      return await _store
-          .doc("$_collection/$id")
-          .update(PointDto(point: 0).toJson());
-    });
+    try{
+      return _store
+          .collection(_collection)
+          .where("uid", isEqualTo: uid)
+          .get()
+          .then((v) async {
+        id = v.docs.first.id;
+        return await _store
+            .doc("$_collection/$id")
+            .update(PointDto(point: 0).toJson());
+      });
+    }
+    catch(e){
+      print(e);
+    }
+      return Future(() => null);
   }
 
   Future<void> buyComplete(String uid , int totalMoney, int point) {

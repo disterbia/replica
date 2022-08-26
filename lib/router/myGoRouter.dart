@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:panda/view/detail_page.dart';
 import 'package:panda/view/home_page.dart';
@@ -26,7 +26,18 @@ class MyRoutes {
 }
 
 class MyPages {
-  static final  router = GoRouter(
+  static late final  router = GoRouter(
+    redirect: (state)  {
+      final loggedIn =GetStorage().read("uid")==null? false:true;
+      final loggingIn = state.subloc == '/login';
+      final orderingIn = state.subloc.contains("/order");
+      if(loggedIn) return loggingIn ?'/':null;
+      else if(orderingIn) return '/';
+      //if (!loggedIn) return loggingIn ? null : '/login';
+      //if (loggingIn) return '/';
+
+      return null;
+    } ,
     errorBuilder: (context, state) => Container(),
     routes: [
       GoRoute(
@@ -35,14 +46,13 @@ class MyPages {
       ),
       GoRoute(
         path: MyRoutes.HOME,
-        builder: (context, state) {
-          return HomePage(param:state.params['index']);
-        }
+        builder: (context, state) => HomePage(param:state.params['index'])
+
 
       ),
       GoRoute(
         path: MyRoutes.DETAIL,
-        builder: (context, state) =>  DetailPage(),
+        builder: (context, state) =>  DetailPage(param:state.params['index']),
       ),
       GoRoute(
         path: MyRoutes.JOIN,
@@ -54,7 +64,7 @@ class MyPages {
       ),
       GoRoute(
         path: MyRoutes.ORDER,
-        builder: (context, state) =>  OrderPage(),
+        builder: (context, state) =>  OrderPage(param: state.params['index'],),
       ),
       GoRoute(
         path: MyRoutes.MYPAGE,
