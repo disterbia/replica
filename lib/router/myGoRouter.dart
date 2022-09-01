@@ -12,6 +12,7 @@ import 'package:panda/view/temp_update.dart';
 import 'package:panda/view/test1.dart';
 import 'package:panda/view/test2.dart';
 import 'package:panda/view/test3.dart';
+import 'package:panda/view/test4.dart';
 import 'package:panda/view/update_page.dart';
 import 'package:panda/view/write_page.dart';
 
@@ -29,6 +30,7 @@ class MyRoutes {
   static const TEST1 = "/test1";
   static const TEST2 = "/test2";
   static const TEST3= "/test3";
+  static const TEST4= "/test4";
 }
 
 class MyPages {
@@ -102,6 +104,12 @@ class MyPages {
         path: MyRoutes.TEST3,
         builder: (context, state) {
           return Test3();
+        },
+      ),
+      GoRoute(
+        path: MyRoutes.TEST4,
+        builder: (context, state) {
+          return Test4();
         },
       ),
     ],

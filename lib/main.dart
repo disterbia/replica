@@ -14,7 +14,8 @@ void main() async {
           apiKey: "AIzaSyDWaktX1bwYSXv0iFjpDC2JZuxSnlxzacs",
           appId: "1:854934436212:web:97cc23dc830f7546841421",
           messagingSenderId: "854934436212",
-          projectId: "replica-e115a"));
+          projectId: "replica-e115a",
+      storageBucket: "gs://replica-e115a.appspot.com"));
   await GetStorage.init();
   setPathUrlStrategy(); //샵없애기
   Get.put(ProductController());
