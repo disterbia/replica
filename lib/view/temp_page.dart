@@ -2,15 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/controller/temp_controller.dart';
-import 'package:panda/router/myGoRouter.dart';
-import 'package:panda/router/myRoutes.dart';
-import 'package:panda/view/home_page.dart';
-import 'package:panda/view/temp_update.dart';
 
 import '../components/cumstom_floating.dart';
 import '../controller/user_controller.dart';
@@ -54,7 +49,7 @@ class TempPage extends GetView<TempContrlloer> {
                             u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
                                 ? TextButton(
                                     onPressed: () {
-                                      Get.rootDelegate.toNamed("/");
+                                     context.go("/temp_update");
                                     },
                                     child: Text("편집"))
                                 : Container()

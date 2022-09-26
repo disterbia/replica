@@ -26,7 +26,7 @@ class MyRoutes {
   static const MYPAGE = '/mypage';
   static const WRITE = '/write';
   static const UPDATE = "/update/:index";
-  static const TEMPUPDATE = "/temp_update/:index";
+  static const TEMPUPDATE = "/temp_update";
   static const TEST1 = "/test1";
   static const TEST2 = "/test2";
   static const TEST3= "/test3";

@@ -24,7 +24,7 @@ class CustomFloating extends StatelessWidget {
       animatedIcon: AnimatedIcons.menu_close,
       backgroundColor: Colors.redAccent,
       overlayColor: Colors.grey,
-      overlayOpacity: 0.5,
+      overlayOpacity: 0,
       spacing: 15,
       spaceBetweenChildren: 15,
       closeManually: false,

@@ -33,27 +33,78 @@
 
   <title>panda</title>
   <link rel="manifest" href="manifest.json">
+
+  <style>
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    .loader {
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border: 15px solid ;
+      border-top: 16px solid blue;
+      border-right: 16px solid white;
+      border-bottom: 16px solid blue;
+      border-left: 16px solid white;
+      width: 120px;
+      height: 120px;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
-  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>
+
+  <div class="loading">
+    <div class="loader"></div>
+  </div>
+
+<!--  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>-->
+<!--  <script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-storage.js"></script>-->
 
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <div id="layer" style="display:none;position:fixed;overflow:hidden;z-index:1;-webkit-overflow-scrolling:touch;"></div>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('flutter-first-frame', function () {
-        navigator.serviceWorker.register('flutter_service_worker.js');
-      });
-    }
-  </script>
+<!--  <script>-->
+<!--    if ('serviceWorker' in navigator) {-->
+<!--      window.addEventListener('flutter-first-frame', function () {-->
+<!--        navigator.serviceWorker.register('flutter_service_worker.js');-->
+<!--      });-->
+<!--    }-->
+<!--  </script>-->
   <script>
     window.add = {};
     var element_layer = document.getElementById('layer');

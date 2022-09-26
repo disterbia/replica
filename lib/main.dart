@@ -15,12 +15,12 @@ void main() async {
           appId: "1:854934436212:web:97cc23dc830f7546841421",
           messagingSenderId: "854934436212",
           projectId: "replica-e115a",
-      storageBucket: "gs://replica-e115a.appspot.com"));
+          storageBucket: "gs://replica-e115a.appspot.com"));
   await GetStorage.init();
   setPathUrlStrategy(); //샵없애기
-  Get.put(ProductController());
-  Get.put(UserController());
-  runApp(GetMaterialApp.router(scrollBehavior: CustomScroll(),
+  runApp(GetMaterialApp.router(
+    scrollBehavior: CustomScroll(),
+    title: "Musita",
     debugShowCheckedModeBanner: false,
     routeInformationParser: MyPages.router.routeInformationParser,
     routerDelegate: MyPages.router.routerDelegate,
@@ -34,6 +34,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-   return Container();
+    return Container();
   }
 }
