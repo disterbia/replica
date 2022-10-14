@@ -7,5 +7,5 @@ class CategoryProvider{
   final _store = FirebaseFirestore.instance;
 
   Future<QuerySnapshot> findAll() =>
-      _store.collection(_collection).orderBy("id", descending: true).get();
+      _store.collection(_collection).orderBy("number").get();
 }
