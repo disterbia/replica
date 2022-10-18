@@ -7,7 +7,7 @@ class TempProvider{
   final _store = FirebaseFirestore.instance;
 
   Future<QuerySnapshot> findAll() =>
-      _store.collection(_collection).orderBy("created", descending: true).get();
+      _store.collection(_collection).orderBy("created", descending: false).get();
 
   Future<DocumentSnapshot> save(Temp temp) =>
       _store.collection(_collection).add(temp.toJson()).then((v) async {

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/user_controller.dart';
 
@@ -20,9 +21,10 @@ class JoinPage extends GetView<UserController> {
   final _email = TextEditingController();
   final _phoneNumber = TextEditingController();
   final _code = TextEditingController();
-
+  BuildContext? _context;
   @override
   Widget build(BuildContext context) {
+    _context=context;
     return controller.obx(
       (state)=> Scaffold(
         body: Padding(
@@ -161,7 +163,7 @@ class JoinPage extends GetView<UserController> {
           ),
           TextButton(
             onPressed: () {
-              Get.rootDelegate.toNamed("/login");
+              _context!.go("/login");
             },
             child: Text("로그인 페이지로 이동"),
           ),

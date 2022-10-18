@@ -12,10 +12,10 @@ class UpdateDto {
         "name": product?.name,
         "comment": product?.comment,
         "price": product?.price,
-        "mainImageUrl": product?.mainImageUrl,
+        // "mainImageUrl": product?.mainImageUrl,
         "category": product?.category,
         "size"   : product?.size,
-        "detailImageUrl": product?.detailImageUrl,
+        // "detailImageUrl": product?.detailImageUrl,
         "updated": FieldValue.serverTimestamp()
       };
 }

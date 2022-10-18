@@ -1,9 +1,13 @@
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:panda/controller/order_controller.dart';
 import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/temp.dart';
 import 'package:panda/repository/temp_repository.dart';
+import 'package:path/path.dart' as Path;
 
 class TempContrlloer extends GetxController with StateMixin{
   final TempRepository _tempRepository = TempRepository();
@@ -50,5 +54,35 @@ class TempContrlloer extends GetxController with StateMixin{
     List<Temp> result= temps.where((temp) => temp.id != id).toList();
     temps.value=result;
     change(null, status: RxStatus.success());
+  }
+
+  List<String> urlList = [];
+
+  Future<List<String>> uploadImageToStorage(List<XFile>? pickedFile) async {
+    change(null,status: RxStatus.loading());
+    for(int i =0;i<pickedFile!.length;i++) {
+      if (kIsWeb) {
+        Reference _reference = FirebaseStorage.instance
+            .ref()
+            .child('temp/images/${Path.basename(pickedFile[i].path)}');
+        await _reference
+            .putData(
+          await pickedFile[i].readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            urlList.add(value);
+            print(value);
+          });
+        });
+      } else {
+        print('fff');
+//write a code for android or ios
+      }
+
+    }
+    change(null,status: RxStatus.success());
+    return urlList;
   }
 }

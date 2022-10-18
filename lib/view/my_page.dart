@@ -36,22 +36,19 @@ class MyPage extends GetView<UserController> {
               }
               else {
                 return Scaffold(
-                    body: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Center(
+                    body: Center(
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
                         child: SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: SingleChildScrollView(
-                            child: Column(children: [
-                              CustomLogo(),
-                              SizedBox(height: 50),
-                              Text("주문내역"),
-                              SizedBox(height: 50),
-                              Text("입금계좌: 신한은행 123-456-7890"),
-                              SizedBox(height: 50),
-                              DataTable(columns: getColumns(), rows: getRows()),
-                            ]),
-                          ),
+                          child: Column(children: [
+                            CustomLogo(),
+                            SizedBox(height: 50),
+                            Text("주문내역"),
+                            SizedBox(height: 50),
+                            Text("입금계좌: 신한은행 123-456-7890"),
+                            SizedBox(height: 50),
+                            DataTable(columns: getColumns(), rows: getRows()),
+                          ]),
                         ),
                       ),
                     ),

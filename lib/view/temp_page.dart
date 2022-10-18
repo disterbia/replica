@@ -33,119 +33,116 @@ class TempPage extends GetView<TempContrlloer> {
     return controller.obx(
           (state)
            => SafeArea(
-             child: Padding(
-               padding: const EdgeInsets.all(8.0),
-               child: Scaffold(
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.startTop,
-                  floatingActionButton: CustomFloating(u: u),
-                  body: Column(
-                    children: [
-                      Expanded(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            CustomLogo(),
-                            u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
-                                ? TextButton(
-                                    onPressed: () {
-                                     context.go("/temp_update");
-                                    },
-                                    child: Text("편집"))
-                                : Container()
-                          ],
-                        ),
-                        flex: 2,
+             child: Scaffold(
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.startTop,
+                floatingActionButton: CustomFloating(u: u),
+                body: Column(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomLogo(),
+                          u.principal.value.uid == "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                              ? TextButton(
+                                  onPressed: () {
+                                   context.go("/temp_update");
+                                  },
+                                  child: Text("편집"))
+                              : Container()
+                        ],
                       ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                        flex: 10,
-                        child: CarouselSlider.builder(
-                            carouselController: buttonCarouselController,
-                            itemBuilder: (context, index, realIndex) {
-                              return t.temps.isEmpty
-                                  ? Container()
-                                  : CachedNetworkImage(
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                          image: DecorationImage(
-                                            image: imageProvider,
-                                            fit: BoxFit.cover,
-                                            // colorFilter:
-                                            // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                          ),
+                      flex: 3,
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Expanded(
+                      flex: 10,
+                      child: CarouselSlider.builder(
+                          carouselController: buttonCarouselController,
+                          itemBuilder: (context, index, realIndex) {
+                            return t.temps.isEmpty
+                                ? Container()
+                                : CachedNetworkImage(
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.contain,
+                                          // colorFilter:
+                                          // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                                         ),
                                       ),
-                                      imageUrl: t.temps[index].url!,
-                                    );
-                            },
-                            itemCount: t.temps.length,
-                            options: CarouselOptions(
-                              height: 600,
-                              aspectRatio: 1,
-                              viewportFraction: 0.8,
-                              initialPage: 0,
-                              enableInfiniteScroll: true,
-                              reverse: false,
-                              autoPlay: true,
-                              autoPlayInterval: Duration(seconds: 3),
-                              autoPlayAnimationDuration:
-                                  Duration(milliseconds: 800),
-                              autoPlayCurve: Curves.fastOutSlowIn,
-                              enlargeCenterPage: true,
-                              scrollDirection: Axis.horizontal,
-                            )),
-                      ),
-                      isDeskTop
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(10, 10),
-                                      primary: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      onPrimary: Colors.black),
-                                  onPressed: () =>
-                                      buttonCarouselController.previousPage(
-                                          duration: Duration(milliseconds: 400)),
-                                  child: Text("<",
-                                      style: TextStyle(color: Colors.black)),
-                                ),
-                                ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      minimumSize: Size(10, 10),
-                                      primary: Colors.transparent,
-                                      shadowColor: Colors.transparent,
-                                      onPrimary: Colors.black),
-                                  onPressed: () =>
-                                      buttonCarouselController.nextPage(
-                                          duration: Duration(milliseconds: 400)),
-                                  child: Text(">",
-                                      style: TextStyle(color: Colors.black)),
-                                )
-                              ],
-                            )
-                          : Container(),
-                      Expanded(
-                          flex: 2,
-                          child: isDeskTop
-                              ? Row(children: createButton(0, 6,context))
-                              : Column(
-                                  children: [
-                                    Expanded(
-                                        child: Row(children: createButton(0, 3,context))),
-                                    Expanded(
-                                        child: Row(children: createButton(3, 6,context)))
-                                  ],
-                                ))
-                    ],
-                  ),
+                                    ),
+                                    imageUrl: t.temps[index].url!,
+                                  );
+                          },
+                          itemCount: t.temps.length,
+                          options: CarouselOptions(
+                            height: 600,
+                            aspectRatio: 1,
+                            viewportFraction: 0.8,
+                            initialPage: 0,
+                            enableInfiniteScroll: true,
+                            reverse: false,
+                            autoPlay: true,
+                            autoPlayInterval: Duration(seconds: 3),
+                            autoPlayAnimationDuration:
+                                Duration(milliseconds: 800),
+                            autoPlayCurve: Curves.fastOutSlowIn,
+                            enlargeCenterPage: true,
+                            scrollDirection: Axis.horizontal,
+                          )),
+                    ),
+                    isDeskTop
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(10, 10),
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    onPrimary: Colors.black),
+                                onPressed: () =>
+                                    buttonCarouselController.previousPage(
+                                        duration: Duration(milliseconds: 400)),
+                                child: Text("<",
+                                    style: TextStyle(color: Colors.black)),
+                              ),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    minimumSize: Size(10, 10),
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                    onPrimary: Colors.black),
+                                onPressed: () =>
+                                    buttonCarouselController.nextPage(
+                                        duration: Duration(milliseconds: 400)),
+                                child: Text(">",
+                                    style: TextStyle(color: Colors.black)),
+                              )
+                            ],
+                          )
+                        : Container(),
+                    Expanded(
+                        flex: 2,
+                        child: isDeskTop
+                            ? Row(children: createButton(0, 6,context))
+                            : Column(
+                                children: [
+                                  Expanded(
+                                      child: Row(children: createButton(0, 3,context))),
+                                  Expanded(
+                                      child: Row(children: createButton(3, 6,context)))
+                                ],
+                              ))
+                  ],
                 ),
-             ),
+              ),
            ),
 
         onLoading: Center(child: Container(height:50,width:50,child: CircularProgressIndicator()))

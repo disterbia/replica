@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:panda/components/custom_logo.dart';
 import 'package:panda/controller/user_controller.dart';
-
 import 'package:panda/util/validator_util.dart';
 import 'package:panda/components/custom_elevated_button.dart';
 import 'package:panda/components/custom_text_form_field.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 
 
 class LoginPage extends GetView<UserController> {
@@ -89,7 +89,7 @@ class LoginPage extends GetView<UserController> {
           ),
           TextButton(
             onPressed: () {
-              AlertDialog();
+              _context!.go("/join");
             },
             child: Text("아직 회원가입이 안되어 있나요?"),
           ),

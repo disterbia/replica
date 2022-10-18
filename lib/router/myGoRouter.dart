@@ -100,12 +100,12 @@ class MyPages {
           return Test2(param:state.queryParams['code']);
         },
       ),
-      GoRoute(
-        path: MyRoutes.TEST3,
-        builder: (context, state) {
-          return Test3();
-        },
-      ),
+      // GoRoute(
+      //   path: MyRoutes.TEST3,
+      //   builder: (context, state) {
+      //     return Test3();
+      //   },
+      // ),
       GoRoute(
         path: MyRoutes.TEST4,
         builder: (context, state) {

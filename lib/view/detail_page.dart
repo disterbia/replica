@@ -32,120 +32,117 @@ class DetailPage extends GetView<ProductController>  {
           } else {
             sizeValue.value = p.product.value.size!.first;
             return SafeArea(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Scaffold(
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.startTop,
-                  floatingActionButton: CustomFloating(u: u),
-                  body: Center(
+              child: Scaffold(
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.startTop,
+                floatingActionButton: CustomFloating(u: u),
+                body: Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
                     child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: SingleChildScrollView(
-                        child: Column(children: [
-                          CustomLogo(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          GetStorage().read("uid") ==
-                                  "chRfCQk6Z0S857O88T2A6aAKOVg2"
-                              ? Row(
-                                  children: [
-                                    TextButton(
-                                        onPressed: () {
-                                          context.go("/update/$param");
-                                          //Get.rootDelegate.toNamed("/update");
-                                        },
-                                        child: Text("수정")),
-                                    TextButton(
-                                        onPressed: () async {
-                                          await p.delete(p.product.value.id!);
-                                          context.go("/");
-                                          //Get.rootDelegate.toNamed("/");
-                                        },
-                                        child: Text("삭제")),
-                                  ],
-                                )
-                              : Container(),
-                          isDesktop
-                              ? Row(children: order(context,isDesktop))
-                              // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
-                              //       return Row(children:order(isDesktop));
-                              // })
+                      child: Column(children: [
+                        CustomLogo(),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        GetStorage().read("uid") ==
+                                "chRfCQk6Z0S857O88T2A6aAKOVg2"
+                            ? Row(
+                                children: [
+                                  TextButton(
+                                      onPressed: () {
+                                        context.go("/update/$param");
+                                        //Get.rootDelegate.toNamed("/update");
+                                      },
+                                      child: Text("수정")),
+                                  TextButton(
+                                      onPressed: () async {
+                                        await p.delete(p.product.value.id!);
+                                        context.go("/");
+                                        //Get.rootDelegate.toNamed("/");
+                                      },
+                                      child: Text("삭제")),
+                                ],
+                              )
+                            : Container(),
+                        isDesktop
+                            ? Row(children: order(context,isDesktop))
+                            // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
+                            //       return Row(children:order(isDesktop));
+                            // })
 
-                              : Column(children: order(context,isDesktop)),
-                          // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
-                          //   return Column(children:order(isDesktop));
-                          // }),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                              width: 1000,
-                              height: 30,
-                              color: Colors.blueGrey.shade50,
-                              child: Center(
-                                child: Text(
-                                  "상품상세보기",
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    shadows: [
-                                      Shadow(
-                                        blurRadius: 10.0,
-                                        color: Colors.orange,
-                                        offset: Offset(5.0, 5.0),
-                                      ),
-                                    ],
-                                  ),
+                            : Column(children: order(context,isDesktop)),
+                        // FutureBuilder(future: p.findById(p.products[param].id!),builder: (BuildContext context, AsyncSnapshot snapshot){
+                        //   return Column(children:order(isDesktop));
+                        // }),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                            width: 1000,
+                            height: 30,
+                            color: Colors.blueGrey.shade50,
+                            child: Center(
+                              child: Text(
+                                "상품상세보기",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  shadows: [
+                                    Shadow(
+                                      blurRadius: 10.0,
+                                      color: Colors.orange,
+                                      offset: Offset(5.0, 5.0),
+                                    ),
+                                  ],
                                 ),
-                              )),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: 1400,
-                            child: ListView.separated(
-                              itemCount: p.product.value.detailImageUrl!.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Center(
-                                  child: CachedNetworkImage(
-                                    height: isDesktop ? 500 : Get.height / 2,
-                                    width: isDesktop ? 500 : Get.height / 2,
-                                    imageUrl:
-                                        p.product.value.detailImageUrl![index],
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          fit: BoxFit.none,
-                                          image: imageProvider,
-                                          // colorFilter:
-                                          // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
-                                        ),
+                              ),
+                            )),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+                          width: 1400,
+                          child: ListView.separated(
+                            itemCount: p.product.value.detailImageUrl!.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Center(
+                                child: CachedNetworkImage(
+                                  height: isDesktop ? 500 : Get.height / 2,
+                                  width: isDesktop ? 500 : Get.height / 2,
+                                  imageUrl:
+                                      p.product.value.detailImageUrl![index],
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        fit: BoxFit.contain,
+                                        image: imageProvider,
+                                        // colorFilter:
+                                        // ColorFilter.mode(Colors.red, BlendMode.colorBurn)
                                       ),
                                     ),
-                                    placeholder: (context, url) => Center(
-                                        child: Container(
-                                            height: 50,
-                                            width: 50,
-                                            child:
-                                                CircularProgressIndicator())),
-                                    errorWidget: (context, url, error) {
-                                      print(error);
-                                      return Icon(Icons.error);
-                                    },
                                   ),
-                                );
-                              },
-                              separatorBuilder: (context, index) {
-                                return Divider();
-                              },
-                            ),
-                          )
-                        ]),
-                      ),
+                                  placeholder: (context, url) => Center(
+                                      child: Container(
+                                          height: 50,
+                                          width: 50,
+                                          child:
+                                              CircularProgressIndicator())),
+                                  errorWidget: (context, url, error) {
+                                    print(error);
+                                    return Icon(Icons.error);
+                                  },
+                                ),
+                              );
+                            },
+                            separatorBuilder: (context, index) {
+                              return Divider();
+                            },
+                          ),
+                        )
+                      ]),
                     ),
                   ),
                 ),

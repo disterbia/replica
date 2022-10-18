@@ -80,6 +80,24 @@ Function validateTitle() {
   };
 }
 
+Function validatePrice() {
+  return (String? value) {
+    bool check=false;
+    try{
+      int.parse(value!);
+    }catch(e){
+      check=true;
+    }
+    if (value!.isEmpty) {
+      return "가격은 공백이 들어갈 수 없습니다.";
+    } else if (check) {
+      return "숫자만 들어갈 수 있습니다";
+    } else {
+      return null;
+    }
+  };
+}
+
 Function validateContent() {
   return (String? value) {
     if (value!.isEmpty) {

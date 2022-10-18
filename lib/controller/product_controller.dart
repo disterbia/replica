@@ -1,6 +1,9 @@
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:panda/repository/product_repository.dart';
-
+import 'package:path/path.dart' as Path;
 import '../model/product.dart';
 
 class ProductController extends GetxController with StateMixin {
@@ -92,11 +95,12 @@ class ProductController extends GetxController with StateMixin {
 
   Future<void> delete(String id) async {
     change(null,status: RxStatus.loading());
-
+    Product product = await _productRepository.findById(id);
+    findByCategory(product.category!);
     await _productRepository.delete(id);
-    List<Product> result =
-        products.where((product) => product.id != id).toList();
-    products.value = result;
+    // List<Product> result =
+    //     products.where((product) => product.id != id).toList();
+    // products.value = result;
 
     change(null, status: RxStatus.success());
   }
@@ -107,8 +111,9 @@ class ProductController extends GetxController with StateMixin {
     await _productRepository.update(newProduct);
     Product product = await _productRepository.findById(newProduct.id!);
     this.product.value = product;
-    this.products.value =
-        this.products.map((e) => e.id == newProduct.id ? product : e).toList();
+    findByCategory(product.category!);
+    // products.value =
+    //     products.map((e) => e.id == newProduct.id ? product : e).toList();
 
     change(null, status: RxStatus.success());
   }
@@ -125,5 +130,33 @@ class ProductController extends GetxController with StateMixin {
     this.products.value=result;
 
     change(null, status: RxStatus.success());
+  }
+
+  List<String> urlList = [];
+  Future<List<String>> uploadImageToStorage(List<XFile>? pickedFile) async {
+    change(null,status: RxStatus.loading());
+    for(int i =0;i<pickedFile!.length;i++) {
+      if (kIsWeb) {
+        Reference _reference = FirebaseStorage.instance
+            .ref()
+            .child('product/images/${Path.basename(pickedFile[i].path)}');
+        await _reference
+            .putData(
+          await pickedFile[i].readAsBytes(),
+          SettableMetadata(contentType: 'image/jpeg'),
+        )
+            .whenComplete(() async {
+          await _reference.getDownloadURL().then((value) {
+            urlList.add(value);
+            print(value);
+          });
+        });
+      } else {
+        print('fff');
+//write a code for android or ios
+      }
+    }
+    change(null,status: RxStatus.success());
+    return urlList;
   }
 }
