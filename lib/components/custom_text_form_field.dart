@@ -20,7 +20,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Container(width: 800,
+      child: Container(width: 500,
         child: TextFormField(onFieldSubmitted:(v) {
           funSubmit();
           },

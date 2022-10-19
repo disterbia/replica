@@ -39,6 +39,7 @@ class OrderPage extends GetView<ProductController> {
         (state) => Obx(
               (){
                 if (p.isLoading.value||u.isLoading.value) {
+
                   return Center(
                       child: Container(
                           height: 50, width: 50, child: CircularProgressIndicator()));

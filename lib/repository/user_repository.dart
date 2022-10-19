@@ -25,6 +25,8 @@ class UserRepositoy {
           username: username,
           email: email,
           phoneNumber: phoneNumber,
+          point: 0,
+          totalMoney: 0,
           created: userCredential.user!.metadata.creationTime,
           updated: userCredential.user!.metadata.creationTime);
       await _userProvider.join(principal);

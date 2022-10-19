@@ -84,7 +84,7 @@ class MyPages {
       ),
       GoRoute(
         path: MyRoutes.UPDATE,
-        builder: (context, state) =>  UpdatePage(),
+        builder: (context, state) =>  UpdatePage(param: state.params['index']),
       ),
       GoRoute(
         path: MyRoutes.TEMPUPDATE,

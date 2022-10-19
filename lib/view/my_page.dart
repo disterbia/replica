@@ -92,7 +92,6 @@ class MyPage extends GetView<UserController> {
     for (var i = 0; i < nowColumns.length; i++) {
       columns.add(DataColumn(label: Text(nowColumns[i])));
     }
-    print(columns.length);
     return columns;
   }
 

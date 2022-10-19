@@ -12,11 +12,12 @@ import '../components/cumstom_floating.dart';
 
 class DetailPage extends GetView<ProductController>  {
   DetailPage({this.param});
+  String? param;
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDesktop = GetPlatform.isDesktop;
   final sizeValue = "".obs;
-  String? param;
+
   //final param = Get.rootDelegate.parameters["index"]!;
 
   @override

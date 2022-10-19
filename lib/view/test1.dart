@@ -14,7 +14,7 @@ class Test1 extends StatelessWidget {
           child: Text("rr"),
           onPressed: ()  {
             HTML.window.location.href = 'https://kauth.kakao'
-                '.com/oauth/authorize?response_type=code&client_id=$restapi&redirect_uri=$redirect&response_type=code&scope=account_email,gender';
+                '.com/oauth/authorize?response_type=code&client_id=$restapi&redirect_uri=$redirect&response_type=code&scope=account_email,gender,phone_number';
           },
         ),
       ]),
