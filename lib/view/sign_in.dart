@@ -53,7 +53,10 @@ class LoginPage extends GetView<UserController> {
     if (_formKey.currentState!.validate()) {
       bool result = await u.login(_username.text.trim(), _password.text.trim());
       if (result) {
-        _context!.go("/"); // Error: Unexpected null value.
+        Router.neglect(_context!, () {
+          _context!.go("/");
+        });
+        // Error: Unexpected null value.
       } else {
         showDialog(
             context: _context!,

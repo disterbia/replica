@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:panda/repository/order_repository.dart';
 
 import '../model/order.dart';
@@ -8,6 +9,17 @@ class OrderController extends GetxController with StateMixin{
   final orders = <Order>[].obs;
   RxBool isLoding = true.obs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    String? uid= GetStorage().read("uid");
+    if(uid!=null&&uid=="chRfCQk6Z0S857O88T2A6aAKOVg2"){
+      findAll();
+    }else if(uid!=null){
+      findByUid(uid);
+    }
+    change(null, status: RxStatus.success());
+  }
 
   Future<void> findAll() async{
     change(null,status: RxStatus.loading());

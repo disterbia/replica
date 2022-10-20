@@ -96,7 +96,11 @@ class JoinPage extends GetView<UserController> {
           _phoneNumber.text.trim());
 
       if (result) {
-        _context!.go("/");
+        Router.neglect(_context!, () {
+          _context!.go("/");
+        });
+
+
       } else {
         showDialog(
             context: _context!,

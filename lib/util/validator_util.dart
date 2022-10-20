@@ -4,7 +4,7 @@ Function validateUsername() {
   //GetUtils.isEmail()
   return (String? value) {
     if (value!.isEmpty) {
-      return "유저네임에 들어갈 수 없습니다.";
+      return "유저네임에 빈칸이 들어갈 수 없습니다.";
     } else if (!GetUtils.isAlphabetOnly(value)) {
       return "유저네임에 한글이나 특수 문자가 들어갈 수 없습니다.";
     } else if (value.length > 12) {
@@ -12,6 +12,17 @@ Function validateUsername() {
     } else if (value.length < 3) {
       return "유저네임의 최소 길이는 3자입니다.";
     } else {
+      return null;
+    }
+  };
+}
+
+Function validateOrder() {
+  //GetUtils.isEmail()
+  return (String? value) {
+    if (value!.isEmpty) {
+      return "빈칸이 들어갈 수 없습니다.";
+    }else {
       return null;
     }
   };

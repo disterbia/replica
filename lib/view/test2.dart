@@ -53,10 +53,15 @@ class Test2 extends GetView<UserController> {
       bool result= await u.checkEmail(email);
       if(result){
         await u.join(email, "freedom67!", "kakao", "000");
-        context.go("/");
+        Router.neglect(context, () {
+          context.go("/");
+        });
+
       }else{
         data=await u.login(email, "freedom67!");
-        context.go("/");
+        Router.neglect(context, () {
+          context.go("/");
+        });
       }
       // print("--------$email");
       //print(response.body);

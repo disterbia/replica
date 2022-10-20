@@ -7,7 +7,6 @@ import 'package:panda/repository/user_repository.dart';
 class UserController extends GetxController with StateMixin {
   final UserRepositoy _userRepository = UserRepositoy();
   final principal = User().obs;
-  final OrderController o = Get.put(OrderController());
   RxBool isLoading = true.obs; //order페이지를 위해서
   @override
   void onInit() {
@@ -37,8 +36,6 @@ class UserController extends GetxController with StateMixin {
       this.principal.value = principal;
       GetStorage().write("uid", principal.uid);
 
-      if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
-      else await o.findByUid(principal.uid!);
 
       change(null, status: RxStatus.success());
       return true;
@@ -57,8 +54,8 @@ class UserController extends GetxController with StateMixin {
       this.principal.value = principal;
       GetStorage().write("uid", principal.uid);
 
-      if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
-      else await o.findByUid(principal.uid!);
+      // if(principal.uid=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
+      // else await o.findByUid(principal.uid!);
 
       change(null, status: RxStatus.success());
       return true;

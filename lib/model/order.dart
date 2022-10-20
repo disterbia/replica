@@ -14,6 +14,7 @@ class Order {
   final String? payName;
   final String? address;
   final String? memo;
+  final int? phone;
   final int? payPrice;
   String? state;
   final DateTime? created;
@@ -28,6 +29,7 @@ class Order {
       this.address,
       this.memo,
       this.payPrice,
+        this.phone,
       this.state,
       this.created,
       this.updated});
@@ -40,6 +42,7 @@ class Order {
         payName = json["pay_name"],
         address = json["address"],
         memo = json["memo"],
+  phone=json["phone"],
         payPrice = json["payPrice"],
         state = json["state"],
         created = json["created"].toDate(),
@@ -53,6 +56,7 @@ class Order {
         "pay_name": payName,
         "address": address,
         "memo": memo,
+    "phone":phone,
         "payPrice": payPrice,
         "state": state,
         "created": FieldValue.serverTimestamp(),

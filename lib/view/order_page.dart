@@ -13,14 +13,14 @@ import 'package:panda/controller/user_controller.dart';
 
 import '../model/order.dart';
 import '../util/validator_util.dart';
-import 'my_page.dart';
 
-class OrderPage extends GetView<ProductController> {
+class OrderPage extends GetView<OrderController> {
   OrderPage({this.param});
   final _formKey = GlobalKey<FormState>();
   final _address = TextEditingController();
   final _payName = TextEditingController();
   final _memo = TextEditingController();
+  final phone = TextEditingController();
   ProductController p = Get.put(ProductController());
   OrderController o = Get.put(OrderController());
   UserController u = Get.put(UserController());
@@ -61,20 +61,25 @@ class OrderPage extends GetView<ProductController> {
                           children: [
                             CustomLogo(),
                             SizedBox(
-                              height: 50,
+                              height: 30,
                             ),
                             Text(p.product.value.name!),
                             Text(p.product.value.comment!),
+                            p.product.value.size!.first != ""?Text("옵션:${GetStorage().read("option")}"):Container(),
                             Text(NumberFormat("###,###,### 원")
                                 .format(p.product.value.price!)),
                             CustomTextFormField(
                                 hint: "배송지",
                                 controller: _address,
-                                funValidator: validateUsername()),
+                                funValidator: validateOrder()),
                             CustomTextFormField(
                                 hint: "입금자명",
                                 controller: _payName,
-                                funValidator: validateUsername()),
+                                funValidator: validateOrder()),
+                            CustomTextFormField(
+                                hint: "수령인 전화번호",
+                                controller: phone,
+                                funValidator: validatePhoneNumber()),
                             Text("입금계좌 : 신한은행 123-456789-000"),
                             Row(
                               children: [
@@ -104,28 +109,35 @@ class OrderPage extends GetView<ProductController> {
                             Text(
                                 "입금금액 : ${NumberFormat("###,###,### 원").format(nowPrice.value)}"),
                             CustomTextFormField(
-                                hint: "상품 색상 및 옵션등을 말씀해 주세요.",
+                                hint: "요구사항을 말씀해 주세요.",
                                 controller: _memo,
-                                funValidator: validateUsername()),
+                                ),
                             CustomElevatedButton(
                                 text: "주문완료",
                                 funPageRoute: () async {
-                                  Order order = Order(
-                                      uid: u.principal.value.uid,
-                                      user: u.principal.value,
-                                      product: p.product.value,
-                                      address: _address.text,
-                                      payName: _payName.text,
-                                      memo: _memo.text,
-                                      payPrice: nowPrice.value,
-                                      state: "입금확인중");
-                                  pressed.value ? await u.updatePoint(
-                                      u.principal.value.uid!):null;
-
-                                  await o.save(order);
-                                  await o.findByUid(u.principal.value.uid!);
+                                  if (_formKey.currentState!.validate()&&GetStorage().read("product")==p.product.value.id) {
+                                Order order = Order(
+                                    uid: u.principal.value.uid,
+                                    user: u.principal.value,
+                                    product: p.product.value,
+                                    address: _address.text,
+                                    payName: _payName.text,
+                                    phone: int.parse(phone.text),
+                                    memo: _memo.text,
+                                    payPrice: nowPrice.value,
+                                    state: "입금확인중");
+                                pressed.value
+                                    ? await u
+                                        .updatePoint(u.principal.value.uid!)
+                                    : null;
+                                GetStorage().remove("option");
+                                await o.save(order);
+                                await o.findByUid(u.principal.value.uid!);
+                                Router.neglect(context, () {
                                   context.go("/mypage");
-                                })
+                                });
+                              }
+                            })
                           ],
                         ),
                       ),
@@ -135,9 +147,9 @@ class OrderPage extends GetView<ProductController> {
               );
                 }
   }),
-        // onLoading: Center(
-        //     child: Container(
-        //         height: 50, width: 50, child: CircularProgressIndicator()))
+        onLoading: Center(
+            child: Container(
+                height: 50, width: 50, child: CircularProgressIndicator()))
     );
   }
 }

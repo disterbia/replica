@@ -13,7 +13,6 @@ class TempContrlloer extends GetxController with StateMixin{
   final TempRepository _tempRepository = TempRepository();
   final temps = <Temp>[].obs;
   final UserController u = Get.put(UserController());
-  final OrderController o = Get.put(OrderController());
 
   @override
   void onInit() {
@@ -30,10 +29,10 @@ class TempContrlloer extends GetxController with StateMixin{
       await u.findById(GetStorage().read("uid"));
     }
 
-    if(GetStorage().hasData("uid")){
-      if(GetStorage().read("uid")=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
-      else await o.findByUid(GetStorage().read("uid"));
-    }
+    // if(GetStorage().hasData("uid")){
+    //   if(GetStorage().read("uid")=="chRfCQk6Z0S857O88T2A6aAKOVg2") await o.findAll();
+    //   else await o.findByUid(GetStorage().read("uid"));
+    // }
 
     this.temps.value=temps;
     change(null, status: RxStatus.success());

@@ -9,7 +9,7 @@ import 'package:panda/controller/user_controller.dart';
 import 'package:panda/model/order.dart';
 import 'package:panda/model/user.dart';
 
-class MyPage extends GetView<UserController> {
+class MyPage extends GetView<OrderController> {
   OrderController o = Get.put(OrderController());
   UserController u = Get.put(UserController());
 
@@ -21,11 +21,6 @@ class MyPage extends GetView<UserController> {
       return Container();
       }else {
       u.findById(uid);
-        if(GetStorage().read("uid")=="chRfCQk6Z0S857O88T2A6aAKOVg2") {
-          o.findAll();
-        } else {
-          o.findByUid(GetStorage().read("uid"));
-        }
       return controller.obx(
         (state) => Obx(
               ()
@@ -58,7 +53,8 @@ class MyPage extends GetView<UserController> {
             ),
         onLoading: Center(
             child: Container(
-                height: 50, width: 50, child: CircularProgressIndicator())));
+                height: 50, width: 50, child: CircularProgressIndicator()))
+      );
     }
   }
 
@@ -71,6 +67,7 @@ class MyPage extends GetView<UserController> {
       "입금금액",
       "주소",
       "입금자명",
+      "수령인 전화번호",
       "상태",
       "주문날짜"
     ];
@@ -81,6 +78,7 @@ class MyPage extends GetView<UserController> {
       "입금금액",
       "주소",
       "입금자명",
+      "수령인 전화번호",
       "상태",
       "주문날짜"
     ];
@@ -114,6 +112,7 @@ class MyPage extends GetView<UserController> {
             Text(NumberFormat("###,###,### 원").format(orders[i].payPrice))));
         cells.add(DataCell(Text(orders[i].address!)));
         cells.add(DataCell(Text(orders[i].payName!)));
+        cells.add(DataCell(Text(orders[i].phone!.toString())));
         cells.add(DataCell(Row(
           children: [
             Text(orders[i].state!),
@@ -155,6 +154,7 @@ class MyPage extends GetView<UserController> {
             Text(NumberFormat("###,###,### 원").format(orders[i].payPrice))));
         cells.add(DataCell(Text(orders[i].address!)));
         cells.add(DataCell(Text(orders[i].payName!)));
+        cells.add(DataCell(Text(orders[i].phone!.toString())));
         cells.add(DataCell(Text(orders[i].state!)));
         cells.add(DataCell(Text(orders[i].created!.toString())));
         rows.add(DataRow(cells: cells));

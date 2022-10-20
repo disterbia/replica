@@ -235,6 +235,10 @@ class DetailPage extends GetView<ProductController>  {
               ),
               child: Text("주문하기"),
               onPressed: () {
+                GetStorage().write("product", p.product.value.id);
+                if(GetStorage().read("uid")!= null&&p.product.value.size!.first != ""){
+                  GetStorage().write("option", sizeValue.value);
+                }
                 context.go(GetStorage().read("uid")== null ? "/login" : "/detail/$param/order");
               },
             ),
