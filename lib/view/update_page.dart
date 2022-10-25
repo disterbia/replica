@@ -3,13 +3,10 @@ import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:panda/controller/product_controller.dart';
 import 'package:panda/model/product.dart';
-import 'package:panda/view/detail_page.dart';
-import 'package:panda/view/temp_page.dart';
 
 import '../components/custom_elevated_button.dart';
 import '../components/custom_text_form_field.dart';
 import '../util/validator_util.dart';
-import 'home_page.dart';
 
 class UpdatePage extends GetView<ProductController> {
   UpdatePage({this.param});
@@ -22,8 +19,9 @@ class UpdatePage extends GetView<ProductController> {
   final _price = TextEditingController();
   final _size = TextEditingController();
   final ProductController p = Get.put(ProductController());
-  final textFormList = <Widget>[].obs;
+  // final textFormList = <Widget>[].obs;
   final List<bool> _selections = List.generate(6, (index) => false).obs;
+  String? beforeCategory;
   final List<String> categoris = [
     "남성의류",
     "여성의류",
@@ -47,7 +45,14 @@ class UpdatePage extends GetView<ProductController> {
   @override
   Widget build(BuildContext context) {
     p.findById(param!);
-
+    for(int i = 0; i<categoris.length;i++){
+      if(categoris[i]==p.product.value.category) {
+        _selections[i]=true;
+        category = categoris[i];
+        beforeCategory=category;
+        break;
+      }
+    }
     return controller.obx((state) => Obx(() {
       if (p.isLoading.value) {
         return Center(
@@ -58,7 +63,7 @@ class UpdatePage extends GetView<ProductController> {
         _name.text = p.product.value.name!;
         _comment.text = p.product.value.comment!;
         _price.text = p.product.value.price!.toString();
-        category=p.product.value.category;
+        //category=p.product.value.category;
 
         // _mainImageUrl.text = p.product.value.mainImageUrl!;
         //
@@ -70,12 +75,7 @@ class UpdatePage extends GetView<ProductController> {
         // _detailControllerList.removeAt(0);
         //textFormList.removeAt(0); // 그냥 메인 유알엘 지우고 하나로 다 관리할껄..
 
-        for(int i = 0; i<categoris.length;i++){
-          if(categoris[i]==p.product.value.category) {
-            _selections[i]=true;
-            break;
-          }
-        }
+
         String temp="";
         List<dynamic>? size =p.product.value.size;
         for(int i = 0 ; i<size!.length;i++){
@@ -177,7 +177,8 @@ class UpdatePage extends GetView<ProductController> {
                                 // mainImageUrl: _mainImageUrl.text,
                                 // detailImageUrl: list,
                                 size: size,
-                                category: category)); // 3초 (로딩 그림)
+                                category: category));
+                            p.findByCategory(beforeCategory!); // 3초 (로딩 그림)
                             context.go("/");
                           }
                         },

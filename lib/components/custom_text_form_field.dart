@@ -8,12 +8,14 @@ class CustomTextFormField extends StatelessWidget {
   final funValidator;
   final controller;
   final funSubmit;
+  final disable;
 
   const CustomTextFormField({
     required this.hint,
      this.funValidator,
     this.controller,
-    this.funSubmit
+    this.funSubmit,
+    this.disable
   });
 
   @override
@@ -24,6 +26,7 @@ class CustomTextFormField extends StatelessWidget {
         child: TextFormField(onFieldSubmitted:(v) {
           funSubmit();
           },
+          enabled: disable==true?false:true,
           controller: controller,
           validator: funValidator,
           obscureText: hint == "Password" ? true : false,

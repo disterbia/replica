@@ -17,6 +17,8 @@ class DetailPage extends GetView<ProductController>  {
   UserController u = Get.put(UserController());
   bool isDesktop = GetPlatform.isDesktop;
   final sizeValue = "".obs;
+  double screenHeight=Get.height;
+  double screenWidth=Get.width;
 
   //final param = Get.rootDelegate.parameters["index"]!;
 
@@ -80,7 +82,7 @@ class DetailPage extends GetView<ProductController>  {
                           height: 10,
                         ),
                         Container(
-                            width: 1000,
+                            width: screenWidth,
                             height: 30,
                             color: Colors.blueGrey.shade50,
                             child: Center(
@@ -102,7 +104,7 @@ class DetailPage extends GetView<ProductController>  {
                           height: 10,
                         ),
                         Container(
-                          width: 1400,
+                          width: screenWidth,
                           child: ListView.separated(
                             itemCount: p.product.value.detailImageUrl!.length,
                             shrinkWrap: true,
@@ -157,8 +159,8 @@ class DetailPage extends GetView<ProductController>  {
   List<Widget> order(BuildContext context, bool desktop) {
     List<Widget> list = [
       CachedNetworkImage(
-        height: 500,
-        width: 500,
+        height: isDesktop?screenHeight/1.4:screenHeight/2,
+        width: isDesktop?screenWidth/3 : screenWidth,
         imageUrl: p.product.value.mainImageUrl!,
         imageBuilder: (context, imageProvider) => Container(
           decoration: BoxDecoration(

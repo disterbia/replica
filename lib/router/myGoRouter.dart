@@ -36,11 +36,20 @@ class MyRoutes {
 class MyPages {
   static late final  router = GoRouter(
     redirect: (state)  {
-      final loggedIn =GetStorage().read("uid")==null? false:true;
+      String? uid=GetStorage().read("uid");
+      final loggedIn =uid==null? false:true;
       final loggingIn = state.subloc == '/login';
       final orderingIn = state.subloc.contains("/order");
-      if(loggedIn) return loggingIn ?'/':null;
-      else if(orderingIn) return '/';
+      final joiningIn = state.subloc == '/join';
+      final writingIn = state.subloc.contains("/write");
+      final updatingIn = state.subloc.contains("update");
+
+      if(loggedIn) {
+        return loggingIn||joiningIn ?'/': writingIn||updatingIn ? uid!="chRfCQk6Z0S857O88T2A6aAKOVg2" ? '/' : null : null;
+      } else if(orderingIn||writingIn||updatingIn) {
+        return '/';
+      }
+
       //if (!loggedIn) return loggingIn ? null : '/login';
       //if (loggingIn) return '/';
 

@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:panda/components/custom_logo.dart';
@@ -20,6 +19,8 @@ class HomePage extends GetView<ProductController> {
   ProductController p = Get.put(ProductController());
   UserController u = Get.put(UserController());
   bool isDeskTop = GetPlatform.isDesktop;
+  double screenHeight=Get.height;
+  double screenWidth=Get.width;
   final List<String> categoris = [
     "남성의류",
     "여성의류",
@@ -28,7 +29,6 @@ class HomePage extends GetView<ProductController> {
     "운동화",
     "가방/지갑/악세사리"
   ];
-
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +123,7 @@ class HomePage extends GetView<ProductController> {
                           ],
                         ),
                       ),
-                      Container(width: 1400,
+                      Container(width: screenWidth,
                         child: GridView.builder( physics: NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
                           itemCount: p.products.length,

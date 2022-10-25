@@ -132,8 +132,8 @@ class ProductController extends GetxController with StateMixin {
     change(null, status: RxStatus.success());
   }
 
-  List<String> urlList = [];
   Future<List<String>> uploadImageToStorage(List<XFile>? pickedFile) async {
+    List<String> urlList = [];
     change(null,status: RxStatus.loading());
     for(int i =0;i<pickedFile!.length;i++) {
       if (kIsWeb) {

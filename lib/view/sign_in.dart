@@ -16,7 +16,7 @@ class LoginPage extends GetView<UserController> {
   BuildContext? _context;
 
   String restapi = "eb360f5265f10401f056c9c56bcb7861";
-  String redirect = "http://localhost:5000/test2";
+  String redirect = "http://replica-e115a.firebaseapp.com/test2";
 
   @override
   Widget build(BuildContext context) {
